@@ -1,0 +1,32 @@
+body,
+html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+}
+
+canvas {
+    border: 1px solid black;
+    width: 100%;
+    min-height: 100%;
+    background-color: lightgray;
+}
+
+.container {
+    margin: 1rem;
+}
+
+.tools {
+    display: flex;
+    gap: 1em;
+}
+
+button {
+    min-width: 7em;
+}
