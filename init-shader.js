@@ -6,6 +6,7 @@ const vsSource = `
     // gl_Position is a special variable a vertex shader
     // is responsible for setting
     gl_Position = a_position;
+    gl_PointSize = 10.0;
     }
 `;
 
