@@ -5,10 +5,14 @@ import {
     createShader,
     fsSource,
     vsSource,
-} from "./init-shader.js";
-import WebGLUtils from "./webgl-utils.js";
+} from "./utils/init-shader.js";
+import WebGLUtils from "./utils/webgl-utils.js";
+import { initDrawLine } from "./shapes/line.js";
+// import { initDrawSquare } from "./square.js";
+// import { initDrawRectangle } from "./rectangle.js";
+import { initDrawPolygon } from "./shapes/polygon.js";
 
-main();
+// main();
 
 function main() {
     const canvas = document.getElementById("canvas");
@@ -67,7 +71,6 @@ function main() {
     gl.drawArrays(primitiveType, offset, count);
 }
 
-
 function resizeCanvasToDisplaySize(canvas) {
     // Lookup the size the browser is displaying the canvas in CSS pixels.
     const displayWidth = canvas.clientWidth;
@@ -85,3 +88,23 @@ function resizeCanvasToDisplaySize(canvas) {
 
     return needResize;
 }
+
+const canvas = document.getElementById("canvas");
+export const gl = WebGLUtils.setupWebGL(canvas);
+
+
+document.getElementById("line").addEventListener("mousedown", function(e) {
+    initDrawLine()
+})
+
+document.getElementById("square").addEventListener("mousedown", function(e) {
+    // initDrawSquare()
+})
+
+document.getElementById("rectangle").addEventListener("mousedown", function(e) {
+    // initDrawRectangle()
+})
+
+document.getElementById("polygon").addEventListener("mousedown", function(e) {
+    initDrawPolygon()
+})

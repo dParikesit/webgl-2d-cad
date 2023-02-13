@@ -5,8 +5,9 @@ import {
     createShader,
     fsSource,
     vsSource,
-} from "./init-shader.js";
-import WebGLUtils from "./webgl-utils.js";
+} from "../utils/init-shader.js";
+import WebGLUtils from "../utils/webgl-utils.js";
+import { gl } from "../script.js";
 
 const point = [];
 const points = [];
@@ -14,12 +15,9 @@ const colors = [];
 
 let canvasElem = document.querySelector("canvas");
 
-main();
+// main();
 
-function main() {
-    const canvas = document.getElementById("canvas");
-    const gl = WebGLUtils.setupWebGL(canvas);
-
+function initDrawPolygon() {
     if (!gl) {
         alert("WebGL isn't available");
     }
@@ -27,20 +25,24 @@ function main() {
     resizeCanvasToDisplaySize(gl.canvas);
 
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    // gl.clearColor(0, 0, 0, 0);
+    // gl.clear(gl.COLOR_BUFFER_BIT);
 
     // INITIALIZATION DONE
+    refreshObjectsList();
+
+    canvasElem.addEventListener("mousedown", function (e) {
+        getMousePosition(canvasElem, e);
+    });
 }
 
 // objek created
 const refreshObjectsList = () => {
-    let inner = "<h1>Object Created</h1>";
+    let inner = "<h1>Polygon Initiated</h1>";
 
     document.getElementById("object-created").innerHTML = inner;
 };
 
-refreshObjectsList();
 
 // to get mouse position in canvas
 function getMousePosition(canvas, event) {
@@ -59,10 +61,6 @@ function getMousePosition(canvas, event) {
         renderPolygon(0, points.length);
     }
 }
-
-canvasElem.addEventListener("mousedown", function (e) {
-    getMousePosition(canvasElem, e);
-});
 
 function appendColor() {
     let itemList = ["red", "green", "blue"];
@@ -126,9 +124,7 @@ function updatePointsFromOrigin(x, y) {
 }
 
 function renderPolygon(offset, count) {
-    const gl = WebGLUtils.setupWebGL(canvas);
-
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    // gl.clear(gl.COLOR_BUFFER_BIT);
 
     var vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
     var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
@@ -202,3 +198,6 @@ function resizeCanvasToDisplaySize(canvas) {
 
     return needResize;
 }
+
+
+export { initDrawPolygon };
