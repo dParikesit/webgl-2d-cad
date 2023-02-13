@@ -11,39 +11,7 @@ import WebGLUtils from "./webgl-utils.js";
 const point = [];
 const points = []
 
-// to get mouse position in canvas
-function getMousePosition(canvas, event) {
-    let rect = canvas.getBoundingClientRect();
-    let x = ((event.clientX - rect.left) / canvas.width * 2 - 1);
-    let y = ((event.clientY - rect.top) / canvas.height * (-2) + 1);
-    // masih harus disesuain lg coordinatnya jadi 0.0 (sekarang dia ratusan gitu)
-    console.log("Coordinate x: " + x, 
-                "Coordinate y: " + y);
-    let titik = [x, y]
-    point.push(titik);
-    points.push(x);
-    points.push(y);
-    console.log("isi point" + point);
-
-    renderPolygon(0, 9)
-}
-
 let canvasElem = document.querySelector("canvas");
-  
-canvasElem.addEventListener("mousedown", function(e)
-{
-    getMousePosition(canvasElem, e);
-});
-
-// objek created
-const refreshObjectsList = () => {
-    let inner = '<h1>Object Created</h1>';
-
-
-    document.getElementById('object-created').innerHTML = inner;
-};
-  
-refreshObjectsList();
 
 main();
 
@@ -62,10 +30,80 @@ function main() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     // INITIALIZATION DONE
-
-    renderPolygon(0, 9);
-
 }
+
+// objek created
+const refreshObjectsList = () => {
+    let inner = '<h1>Object Created</h1>';
+
+
+    document.getElementById('object-created').innerHTML = inner;
+};
+  
+refreshObjectsList();
+
+
+// to get mouse position in canvas
+function getMousePosition(canvas, event) {
+    let rect = canvas.getBoundingClientRect();
+    let x = ((event.clientX - rect.left) / canvas.width * 2 - 1);
+    let y = ((event.clientY - rect.top) / canvas.height * (-2) + 1);
+
+    updatePointsFromOrigin(x,y);
+
+    if(points.length == 2){
+        renderPolygon(0, 1);
+    }else if(points.length == 4){
+        renderPolygon(0, 2);
+    }else{
+        renderPolygon(0, points.length);
+    }
+}
+
+canvasElem.addEventListener("mousedown", function(e){
+    getMousePosition(canvasElem, e);
+});
+
+function updatePoints(x,  y){
+    let titik = [x, y];
+    let totalTitik = points.length;
+    point.push(titik);
+
+    if(totalTitik >= 6){
+        console.log("here");
+        points.push(points[totalTitik - 4]);
+        points.push(points[totalTitik - 3]);
+        points.push(points[totalTitik - 2]);
+        points.push(points[totalTitik - 1]);
+        points.push(x);
+        points.push(y);
+    }else{
+        points.push(x);
+        points.push(y);
+    }
+    console.log(points);
+}
+
+function updatePointsFromOrigin(x,  y){
+    let titik = [x, y];
+    let totalTitik = points.length;
+    point.push(titik);
+
+    if(totalTitik >= 6){
+        console.log("here");
+        points.push(points[0]);
+        points.push(points[1]);
+        points.push(points[totalTitik - 2]);
+        points.push(points[totalTitik - 1]);
+        points.push(x);
+        points.push(y);
+    }else{
+        points.push(x);
+        points.push(y);
+    }
+    console.log(points);
+}
+
 
 function renderPolygon(offset, count){
     const gl = WebGLUtils.setupWebGL(canvas);
@@ -80,20 +118,11 @@ function renderPolygon(offset, count){
     gl.useProgram(program);
 
     var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-
     var positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    // three 2d points
-    var positions = [
-        //bawah, atas, kanan
-        0.0, 0.0, 0.0, 0.6, 0.5, 0.0, // Triangle 1
-        // 0.0, -0.9, -0.5, -0.5, 0.5, -0.9, // Triangle 2 
-        // -0.6, -0.6, -0.9, 0.10, -0.3, -0,1 // tiangle 3
-    ];
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);
 
-    
     gl.enableVertexAttribArray(positionAttributeLocation);
 
     // Bind the position buffer.
@@ -116,7 +145,14 @@ function renderPolygon(offset, count){
 
     var offsets = offset;
     var counts = count;
-    gl.drawArrays(gl.POINTS, offsets, counts);
+    var glTypes;
+
+    if(point.length <= 2){
+        glTypes = gl.POINTS;
+    }else{
+        glTypes = gl.TRIANGLES;
+    }
+    gl.drawArrays(glTypes, offsets, counts);
 }
 
 
