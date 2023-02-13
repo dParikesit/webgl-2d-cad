@@ -1,20 +1,24 @@
 // Vertex shader program
 const vsSource = `
-    attribute vec4 a_position;
+    attribute vec4 vPosition;
+    attribute vec4 vColor;
+    varying vec4 fColor;
     void main() {
     
     // gl_Position is a special variable a vertex shader
     // is responsible for setting
-    gl_Position = a_position;
+    gl_Position = vPosition;
     gl_PointSize = 10.0;
+    fColor = vColor;
     }
 `;
 
 const fsSource = `
     precision mediump float;
+    varying vec4 fColor;
     
     void main() {
-    gl_FragColor = vec4(1, 0, 0.5, 1); // return reddish-purple
+    gl_FragColor = fColor; // return reddish-purple
     }
 `;
 
@@ -44,6 +48,5 @@ function createProgram(gl, vertexShader, fragmentShader) {
     console.log(gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
 }
-
 
 export { createShader, createProgram, vsSource, fsSource };
