@@ -18,14 +18,20 @@ function main() {
         alert("WebGL isn't available");
     }
 
-    // gl.viewport(0, 0, canvas.width, canvas.height);
-    // gl.clearColor(0.8, 0.8, 0.8, 1.0);
+    resizeCanvasToDisplaySize(gl.canvas)
+
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
     var vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
     var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
 
     var program = createProgram(gl, vertexShader, fragmentShader);
-    console.log(program);
+    gl.useProgram(program);
+    // INITIALIZATION DONE
+
+    
     var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
 
     var positionBuffer = gl.createBuffer();
@@ -33,17 +39,7 @@ function main() {
 
     // three 2d points
     var positions = [0, 0, 0, 0.5, 0.7, 0];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-
-    // INITIALIZATION DONE
-
-    resizeCanvasToDisplaySize(gl.canvas)
-
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    gl.useProgram(program);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);    
 
     gl.enableVertexAttribArray(positionAttributeLocation);
 

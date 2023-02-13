@@ -8,14 +8,24 @@ import {
 } from "./init-shader.js";
 import WebGLUtils from "./webgl-utils.js";
 
+const point = [];
+const points = []
+
 // to get mouse position in canvas
 function getMousePosition(canvas, event) {
     let rect = canvas.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
+    let x = ((event.clientX - rect.left) / canvas.width * 2 - 1);
+    let y = ((event.clientY - rect.top) / canvas.height * (-2) + 1);
     // masih harus disesuain lg coordinatnya jadi 0.0 (sekarang dia ratusan gitu)
     console.log("Coordinate x: " + x, 
                 "Coordinate y: " + y);
+    let titik = [x, y]
+    point.push(titik);
+    points.push(x);
+    points.push(y);
+    console.log("isi point" + point);
+
+    renderPolygon(0, 9)
 }
 
 let canvasElem = document.querySelector("canvas");
@@ -45,14 +55,30 @@ function main() {
         alert("WebGL isn't available");
     }
 
-    // gl.viewport(0, 0, canvas.width, canvas.height);
-    // gl.clearColor(0.8, 0.8, 0.8, 1.0);
+    resizeCanvasToDisplaySize(gl.canvas)
+
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // INITIALIZATION DONE
+
+    renderPolygon(0, 9);
+
+}
+
+function renderPolygon(offset, count){
+    const gl = WebGLUtils.setupWebGL(canvas);
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
     var vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
     var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
 
     var program = createProgram(gl, vertexShader, fragmentShader);
-    console.log(program);
+
+    gl.useProgram(program);
+
     var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
 
     var positionBuffer = gl.createBuffer();
@@ -65,18 +91,9 @@ function main() {
         // 0.0, -0.9, -0.5, -0.5, 0.5, -0.9, // Triangle 2 
         // -0.6, -0.6, -0.9, 0.10, -0.3, -0,1 // tiangle 3
     ];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);
 
-    // INITIALIZATION DONE
-
-    resizeCanvasToDisplaySize(gl.canvas)
-
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    gl.useProgram(program);
-
+    
     gl.enableVertexAttribArray(positionAttributeLocation);
 
     // Bind the position buffer.
@@ -97,11 +114,11 @@ function main() {
         offset
     );
 
-    var primitiveType = gl.TRIANGLES;
-    var offset = 0;
-    var count = 9;
-    gl.drawArrays(gl.POINTS, offset, count);
+    var offsets = offset;
+    var counts = count;
+    gl.drawArrays(gl.POINTS, offsets, counts);
 }
+
 
 
 function resizeCanvasToDisplaySize(canvas) {
