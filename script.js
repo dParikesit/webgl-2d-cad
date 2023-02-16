@@ -7,6 +7,7 @@ import { initDrawLine } from "./shapes/oldLine.js";
 import { initDrawPolygon } from "./shapes/polygon.js";
 import { resizeCanvasToDisplaySize } from "./utils/tools.js";
 import WebGLUtils from "./utils/webgl-utils.js";
+import { Square } from "./models/Square.js";
 
 const canvas = document.getElementById("canvas");
 const polyAddPoint = document.getElementById("polyAddPoint");
@@ -24,7 +25,6 @@ gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 gl.clearColor(0, 0, 0, 0);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
-
 document.getElementById("line").addEventListener("mousedown", function (e) {
     const line = new Line();
     canvas.addEventListener("mousedown", function (e) {
@@ -36,7 +36,13 @@ document.getElementById("line").addEventListener("mousedown", function (e) {
 });
 
 document.getElementById("square").addEventListener("mousedown", function (e) {
-    // initDrawSquare()
+    const square = new Square();
+    canvas.addEventListener("mousedown", function (e) {
+        square.draw(e)
+    });
+    canvas.addEventListener("mousemove" , function (e) {
+        square.mouseMoveHandler(e)
+    })
 });
 
 document
