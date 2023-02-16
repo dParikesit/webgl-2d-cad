@@ -25,10 +25,6 @@ document.getElementById("line").addEventListener("mousedown", function (e) {
 
 document.getElementById("square").addEventListener("mousedown", function (e) {
     // initDrawSquare()
-    const polygon = new Polygon();
-    canvas.addEventListener("mousedown", function (e) {
-        polygon.draw(e);
-    });
 });
 
 document
@@ -38,9 +34,22 @@ document
     });
 
 document.getElementById("polygon").addEventListener("mousedown", function (e) {
-    initDrawPolygon();
+    // initDrawPolygon();
     // const polygon = new Polygon();
     // canvas.addEventListener("mousedown", function (e) {
     //     polygon.draw(e);
     // });
+
+    const polygon = new Polygon();
+    canvas.addEventListener("mousedown", function (e) {
+        polygon.draw(e);
+    });
+
+    showAddPointsButton("block");
 });
+
+function showAddPointsButton(status) {
+    var x = document.getElementById("polyAddPoint");
+    x.style.display = status;
+}
+
