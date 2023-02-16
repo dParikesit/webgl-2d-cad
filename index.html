@@ -29,14 +29,19 @@
             <button>Transformasi 1</button>
             <button>Transformasi 2</button>
         </div>
-        <div id="object-created"></div>
+        <div id="navPage">
+            <h1>Style</h1>
+            <div id="polygonSection" style="display: none">
+                <button id='polyAddPoint'>
+                    add polygon's point
+                </button>
+                <button id='polyDelPoint'>
+                    delete last point
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="container">
-        <h1>Object Created</h1>
-            <button id='polyAddPoint' style="display: none">
-                add polygon's point
-            </button>
-    </div>
+    <div id="object-created" class="container"></div>
 </body>
 <script type="module" src="script.js"></script>
 </html>
