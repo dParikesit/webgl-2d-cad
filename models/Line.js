@@ -22,6 +22,8 @@ export class Line extends Shape {
         let point = this.getMousePosition(event)
         this.points.push(new Point(point)) 
 
+        let points = this.points
+
         var pairedPoints
         var nonPairedPoint
         if ((points.length) % 2 == 0) {
