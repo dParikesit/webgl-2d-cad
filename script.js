@@ -1,7 +1,9 @@
 "use strict";
 
+// import { Line } from "./models/shapes/Line.js"
 import { Polygon } from "./models/Polygon.js";
-import { initDrawLine } from "./shapes/line.js";
+import { Line } from "./models/Line.js";
+import { initDrawLine } from "./shapes/oldLine.js";
 import { initDrawPolygon } from "./shapes/polygon.js";
 import { resizeCanvasToDisplaySize } from "./utils/tools.js";
 import WebGLUtils from "./utils/webgl-utils.js";
@@ -19,8 +21,15 @@ gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 gl.clearColor(0, 0, 0, 0);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
+
 document.getElementById("line").addEventListener("mousedown", function (e) {
-    initDrawLine();
+    const line = new Line();
+    canvas.addEventListener("mousedown", function (e) {
+        line.draw(e)
+    });
+    canvas.addEventListener("mousemove" , function (e) {
+        line.mouseMoveHandler(e)
+    })
 });
 
 document.getElementById("square").addEventListener("mousedown", function (e) {

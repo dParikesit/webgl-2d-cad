@@ -33,12 +33,12 @@ export class Shape {
 
     draw(event) {}
 
-    render(objType = gl.POINTS) {
-        const pointsDraw = this.points.flatMap((item) => item.pos);
-        const colorsDraw = this.points.flatMap((item) => item.color);
+    render(objType = gl.POINTS, points) {
+        const pointsDraw = points.flatMap((item) => item.pos);
+        const colorsDraw = points.flatMap((item) => item.color);
         
-        console.log(this.points);
-        console.log(pointsDraw)
+        // console.log(points);
+        // console.log(pointsDraw)
 
         var vBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
@@ -77,7 +77,14 @@ export class Shape {
         );
 
         const vColor = gl.getAttribLocation(this.program, "vColor");
-        gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, stride, offset);
+        gl.vertexAttribPointer(
+            vColor, 
+            4, 
+            gl.FLOAT, 
+            false, 
+            stride, 
+            offset
+        );
         gl.enableVertexAttribArray(vColor);
 
         gl.drawArrays(objType, offset, pointsDraw.length);

@@ -29,7 +29,7 @@ function initDrawPolygon() {
     // gl.clear(gl.COLOR_BUFFER_BIT);
 
     // INITIALIZATION DONE
-    refreshObjectsList();
+    drawObjectInfo();
 
     canvasElem.addEventListener("mousedown", function (e) {
         getMousePosition(canvasElem, e);
@@ -37,7 +37,7 @@ function initDrawPolygon() {
 }
 
 // objek created
-const refreshObjectsList = () => {
+const drawObjectInfo = () => {
     let inner = "<h1>Polygon Initiated</h1>";
 
     document.getElementById("object-created").innerHTML = inner;

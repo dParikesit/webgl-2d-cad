@@ -21,12 +21,19 @@ function initDrawLine() {
     // gl.clearColor(0, 0, 0, 0);
     // gl.clear(gl.COLOR_BUFFER_BIT);
 
-    refreshObjectsList();
+    drawObjectInfo();
 
     let canvasElem = document.querySelector("canvas");
     canvasElem.addEventListener("mousedown", function (e) {
         getMousePosition(canvasElem, e);
     });
+
+    canvasElem.addEventListener("mousemove" , (e) => {
+        getMousePosition(canvasElem, e);
+        points.pop()
+        points.pop()
+    })
+
 }
 
 // resize
@@ -49,7 +56,7 @@ function resizeCanvasToDisplaySize(canvas) {
 }
 
 // object created
-function refreshObjectsList() {
+function drawObjectInfo() {
     let inner = "<h1>Line Initiated</h1>";
 
     document.getElementById("object-created").innerHTML = inner;
@@ -64,11 +71,12 @@ function getMousePosition(canvas, event) {
 
     updatePoints(x, y);
 
-    if (points.length < 2) {
-        renderPoint(0,1);
-    } else {
-        renderLine(0, points.length);
-    }
+    // if (points.length < 2) {
+    //     renderPoint(0,1);
+    //     console.log("masok")
+    // } else {
+    renderLine(0, points.length);
+    // }
 }
 
 function appendColor() {
@@ -209,47 +217,49 @@ function renderLine(offset, count) {
     /* render point (alone vertices) */
     // 
     // if all vertices already paired, no need to make new point
-    if ((points.length/2) % 2 == 0) {
-        return
-    }
+    // if ((points.length/2) % 2 == 0) {
+    //     return
+    // }
 
-    var vBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nonPairedPoint), gl.STATIC_DRAW);
-    var positionAttributeLocation = gl.getAttribLocation(program, "vPosition");
 
-    // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    var size = 2; // 2 components per iteration
-    var type = gl.FLOAT; // the data is 32bit floats
-    var normalize = false; // don't normalize the data
-    var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-    var offset = 0; // start at the beginning of the buffer
-    gl.vertexAttribPointer(
-        positionAttributeLocation,
-        size,
-        type,
-        normalize,
-        stride,
-        offset
-    );
-    gl.enableVertexAttribArray(positionAttributeLocation);
+    console.log("125")
+    // var vBuffer = gl.createBuffer();
+    // gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nonPairedPoint), gl.STATIC_DRAW);
+    // var positionAttributeLocation = gl.getAttribLocation(program, "vPosition");
 
-    let color_2 = [];
+    // // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
+    // var size = 2; // 2 components per iteration
+    // var type = gl.FLOAT; // the data is 32bit floats
+    // var normalize = false; // don't normalize the data
+    // var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
+    // var offset = 0; // start at the beginning of the buffer
+    // gl.vertexAttribPointer(
+    //     positionAttributeLocation,
+    //     size,
+    //     type,
+    //     normalize,
+    //     stride,
+    //     offset
+    // );
+    // gl.enableVertexAttribArray(positionAttributeLocation);
 
-    for (let index = 0; index < colors.length; index++) {
-        color_2.push(colors[index][0]);
-        color_2.push(colors[index][1]);
-        color_2.push(colors[index][2]);
-        color_2.push(colors[index][3]);
-    }
+    // let color_2 = [];
 
-    var cBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color_2), gl.STATIC_DRAW);
+    // for (let index = 0; index < colors.length; index++) {
+    //     color_2.push(colors[index][0]);
+    //     color_2.push(colors[index][1]);
+    //     color_2.push(colors[index][2]);
+    //     color_2.push(colors[index][3]);
+    // }
 
-    gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(vColor);
-    gl.drawArrays(gl.POINT, offset, 0);
+    // var cBuffer = gl.createBuffer();
+    // gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color_2), gl.STATIC_DRAW);
+
+    // gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0);
+    // gl.enableVertexAttribArray(vColor);
+    // gl.drawArrays(gl.POINT, offset, 0);
 }
 
 export { initDrawLine };
