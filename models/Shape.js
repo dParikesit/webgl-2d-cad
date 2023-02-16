@@ -34,9 +34,11 @@ export class Shape {
     draw(event) {}
 
     render(objType = gl.POINTS) {
-        console.log(this.points);
         const pointsDraw = this.points.flatMap((item) => item.pos);
         const colorsDraw = this.points.flatMap((item) => item.color);
+        
+        console.log(this.points);
+        console.log(pointsDraw)
 
         var vBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
@@ -51,7 +53,7 @@ export class Shape {
         );
 
         // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-        var size = 1; // 2 components per iteration
+        var size = 2; // 2 components per iteration
         var type = gl.FLOAT; // the data is 32bit floats
         var normalize = false; // don't normalize the data
         var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
@@ -78,6 +80,6 @@ export class Shape {
         gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, stride, offset);
         gl.enableVertexAttribArray(vColor);
 
-        gl.drawArrays(objType, offset, this.points.length);
+        gl.drawArrays(objType, offset, pointsDraw.length);
     }
 }
