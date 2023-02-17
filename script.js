@@ -24,15 +24,32 @@ gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 gl.clearColor(0, 0, 0, 0);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
+let drawing = false; 
+let obj = Object.create(null)
+let count = 0
 
 document.getElementById("line").addEventListener("mousedown", function (e) {
-    const line = new Line();
+    var line = new Line(0);
+
     canvas.addEventListener("mousedown", function (e) {
-        line.draw(e)
+        if (drawing){
+            count++;
+            obj[count] = line
+            console.log(obj)
+
+            drawing = false
+            line.draw(e)
+        } else {
+            drawing = true
+            line.draw(e)
+        }
     });
+    
     canvas.addEventListener("mousemove" , function (e) {
         line.mouseMoveHandler(e)
     })
+    
+
 });
 
 document.getElementById("square").addEventListener("mousedown", function (e) {
