@@ -1,25 +1,24 @@
 import { Point } from "./Point.js";
 import { Shape } from "./Shape.js";
 
-export class Square extends Shape {
-    center;
+export class Rectangle extends Shape {
     firstPoint = null;
     secondPoint = null;
     thirdPoint = null;
     fourthPoint = null;
     done = false;
 
-    constructor(center) {
+    constructor(firstPoint) {
         super()
 
-        this.center = center;
+        this.firstPoint = firstPoint;
         this.drawObjectInfo();
     }
 
     clone() {}
 
     draw(gl, program, vBuffer, cBuffer) {
-        if (this.firstPoint == null) {
+        if (this.secondPoint == null) {
             return;
         }
 
@@ -32,7 +31,7 @@ export class Square extends Shape {
             program,
             vBuffer,
             cBuffer,
-            [this.firstPoint, this.fourthPoint, this.thirdPoint, this.secondPoint, this.firstPoint],
+            [this.firstPoint, this.thirdPoint, this.secondPoint, this.fourthPoint, this.firstPoint],
             gl.TRIANGLE_FAN,
         );
     }
@@ -42,31 +41,28 @@ export class Square extends Shape {
     }
 
     updatePoint(temporarySecondPoint) {
-        this.firstPoint = temporarySecondPoint;
+        this.secondPoint = temporarySecondPoint;
     }
 
     drawObjectInfo = () => {
-        let inner = "<h1>Square Initiated</h1>";
+        let inner = "<h1>Rectangle Initiated</h1>";
 
         document.getElementById("object-created").innerHTML = inner;
     };
 
     getOtherPoints() {
-        var cPoint = this.center.getPoint();
-        var a = cPoint[0]
-        var b = cPoint[1]
-
         var fPoint = this.firstPoint.getPoint();
-        var x = fPoint[0]
-        var y = fPoint[1]
+        var a = fPoint[0]
+        var b = fPoint[1]
 
-        // rotate 90 degree by center
-        this.secondPoint = new Point([-y+a+b, x-a+b])
+        var sPoint = this.secondPoint.getPoint();
+        var x = sPoint[0]
+        var y = sPoint[1]
 
         // rotate 180 degree by center
-        this.thirdPoint = new Point([-x+a+a, -y+b+b])
+        this.thirdPoint = new Point([a, y])
 
         // rotate -90 degree by center
-        this.fourthPoint = new Point([y-b+a, -x+a+b])
+        this.fourthPoint = new Point([x, b])
     }
 }

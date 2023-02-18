@@ -51,7 +51,7 @@ export class Shape {
             stride,
             offset
         );
-        
+
         gl.enableVertexAttribArray(positionAttributeLocation);
         gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
         gl.bufferData(

@@ -1,6 +1,7 @@
 import { Line } from "./models/Line.js";
 import { Point } from "./models/Point.js";
 import { Square } from "./models/Square.js";
+import { Rectangle } from "./models/Rectangle.js";
 import { resizeCanvasToDisplaySize } from "./utils/tools.js";
 import {
     createProgram,
@@ -63,10 +64,15 @@ document.getElementById("line").addEventListener("mousedown", function (e) {
     drawing = false;
 });
 
-document.getElementById("square").addEventListener("mousedown", function(e) {
+document.getElementById("square").addEventListener("mousedown", function (e) {
     drawType = "SQUARE";
     drawing = false;
-})
+});
+
+document.getElementById("rectangle").addEventListener("mousedown", function (e) {
+    drawType = "RECTANGLE";
+    drawing = false;
+});
 
 // Canvas Listener
 canvas.addEventListener("mousedown", function (e) {
@@ -75,8 +81,6 @@ canvas.addEventListener("mousedown", function (e) {
     let y = ((e.clientY - rect.top) / gl.canvas.height) * -2 + 1;
     var point = new Point([x, y]);
 
-
-    console.log(drawType)
     // LINE
     if (drawType == "LINE") {
         if (drawing) {
@@ -93,7 +97,6 @@ canvas.addEventListener("mousedown", function (e) {
 
             drawing = true; // then drawing mode when mouse move
         }
-
     }
     // SQUARE
     if (drawType == "SQUARE") {
@@ -103,19 +106,35 @@ canvas.addEventListener("mousedown", function (e) {
             square.updatePoint(point);
             square.draw(gl, program, vBuffer, cBuffer);
             square.doneDraw();
-            
+
             drawing = false;
         } else {
             // first time mouse down
             let square = new Square(point);
             objects.push(square);
 
-            console.log(square);
             drawing = true; // then drawing mode when mouse move
         }
     }
 
     // RECTANGLE
+    if (drawType == "RECTANGLE") {
+        if (drawing) {
+            // second time mouse down, make line
+            let rectangle = objects[objects.length - 1];
+            rectangle.updatePoint(point);
+            rectangle.draw(gl, program, vBuffer, cBuffer);
+            rectangle.doneDraw();
+
+            drawing = false;
+        } else {
+            // first time mouse down
+            let rectangle = new Rectangle(point);
+            objects.push(rectangle);
+
+            drawing = true; // then drawing mode when mouse move
+        }
+    }
 
     // POLYGON
 });
@@ -139,10 +158,15 @@ canvas.addEventListener("mousemove", function (e) {
             let square = objects[objects.length - 1];
             square.updatePoint(point);
             square.draw(gl, program, vBuffer, cBuffer);
-            console.log(square);
         }
 
         // RECTANGLE
+        if (drawType == "RECTANGLE") {
+            let rectangle = objects[objects.length - 1];
+            rectangle.updatePoint(point);
+            rectangle.draw(gl, program, vBuffer, cBuffer);
+        }
+
 
         // POLYGON
     }
