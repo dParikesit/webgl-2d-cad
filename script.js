@@ -59,7 +59,7 @@ renderAllObject();
 // Button Listener
 document.getElementById("line").addEventListener("mousedown", function (e) {
     drawType = "LINE";
-    drawing = false; // means want to initiate first point see line 81-85
+    drawing = false;
 });
 
 // Canvas Listener
@@ -68,6 +68,7 @@ canvas.addEventListener("mousedown", function (e) {
     let x = ((e.clientX - rect.left) / gl.canvas.width) * 2 - 1;
     let y = ((e.clientY - rect.top) / gl.canvas.height) * -2 + 1;
     var point = new Point([x, y]);
+
     // LINE
     if (drawType == "LINE") {
         if (drawing) {

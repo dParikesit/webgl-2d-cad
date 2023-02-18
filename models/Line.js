@@ -43,33 +43,4 @@ export class Line extends Shape {
 
         document.getElementById("object-created").innerHTML = inner;
     };
-
-    getMousePosition(event) {
-        // let rect = gl.canvas.getBoundingClientRect();
-        // let x = ((event.clientX - rect.left) / gl.canvas.width) * 2 - 1;
-        // let y = ((event.clientY - rect.top) / gl.canvas.height) * -2 + 1;
-
-        let x = event.clientX;
-        let y = event.clientY;
-        return [x, y];
-    }
-
-    mouseMoveHandler(event) {
-        console.log("mousemove");
-        let point = new Point(this.getMousePosition(event));
-        this.renderMouseMove([...this.points, point]);
-    }
-
-    renderMouseMove(points) {
-        var pairedPoints;
-        var nonPairedPoint;
-        if (points.length % 2 == 0) {
-            pairedPoints = points;
-        } else {
-            pairedPoints = points.slice(0, points.length - 1);
-            nonPairedPoint = points.slice(points.length);
-        }
-
-        this.render(gl.LINES, pairedPoints);
-    }
 }
