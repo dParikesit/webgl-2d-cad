@@ -10,7 +10,7 @@ export class Square extends Shape {
     done = false;
 
     constructor(center) {
-        super()
+        super(-1, "Square")
 
         this.center = center;
         this.drawObjectInfo();
@@ -50,6 +50,15 @@ export class Square extends Shape {
 
         document.getElementById("object-created").innerHTML = inner;
     };
+
+    updateFromImport(center, firstPoint, secondPoint, thirdPoint, fourthPoint) {
+        this.center = center;
+        this.firstPoint = firstPoint;
+        this.secondPoint = secondPoint;
+        this.thirdPoint = thirdPoint;
+        this.fourthPoint = fourthPoint
+        this.done = true;
+    }
 
     getOtherPoints() {
         var cPoint = this.center.getPoint();

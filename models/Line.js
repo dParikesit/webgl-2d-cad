@@ -6,7 +6,7 @@ export class Line extends Shape {
     secondPoint = null;
 
     constructor(firstPoint) {
-        super()
+        super(-1, "Line")
 
         this.firstPoint = firstPoint;
         this.drawObjectInfo();
@@ -43,4 +43,9 @@ export class Line extends Shape {
 
         document.getElementById("object-created").innerHTML = inner;
     };
+
+    updatePointFromImport(firstPoint, secondPoint) {
+        this.firstPoint = firstPoint;
+        this.secondPoint = secondPoint;
+    }
 }

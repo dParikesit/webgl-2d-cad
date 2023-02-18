@@ -9,7 +9,7 @@ export class Rectangle extends Shape {
     done = false;
 
     constructor(firstPoint) {
-        super()
+        super(-1, "Rectangle")
 
         this.firstPoint = firstPoint;
         this.drawObjectInfo();
@@ -49,6 +49,14 @@ export class Rectangle extends Shape {
 
         document.getElementById("object-created").innerHTML = inner;
     };
+
+    updatePointFromImport(firstPoint, secondPoint, thirdPoint, fourthPoint) {
+        this.firstPoint = firstPoint;
+        this.secondPoint = secondPoint;
+        this.thirdPoint = thirdPoint;
+        this.fourthPoint = fourthPoint;
+        this.done = true;
+    }
 
     getOtherPoints() {
         var fPoint = this.firstPoint.getPoint();

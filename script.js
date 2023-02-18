@@ -1,4 +1,3 @@
-import { Line } from "./models/Line.js";
 import { Point } from "./models/Point.js";
 import { Square } from "./models/Square.js";
 import { Rectangle } from "./models/Rectangle.js";
@@ -11,6 +10,7 @@ import {
 } from "./utils/init-shader.js";
 
 import WebGLUtils from "./utils/webgl-utils.js";
+import { importLine, importRectangle, importSquare } from "./utils/import-object.js";
 
 // ------------------------ INITIATE GL PROGRAM  ------------------------
 // Create program
@@ -58,7 +58,62 @@ const renderAllObject = () => {
 renderAllObject();
 
 //  ------------------------ LISTENERS  ------------------------
-// Button Listener
+// Export Import Listener
+document.getElementById("export").addEventListener("mousedown", function (e) {
+    let element = document.createElement("a");
+    let text = JSON.stringify(objects);
+    let filename = "data.json";
+
+    element.setAttribute("href", "data:text/json, " + encodeURIComponent(text));
+    element.setAttribute("download", filename);
+
+    document.body.appendChild(element);
+    element.click();
+});
+
+document.getElementById("import").addEventListener("change", function (event) {
+    var data = document.getElementById("import").files[0];
+
+    if (!data) {
+        alert("data not found");
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            var importedObjects = JSON.parse(e.target.result);
+        } catch (e) {
+            alert("data not found");
+            return;
+        }
+
+        if (!importedObjects) {
+            return;
+        }
+
+        for (let i = 0; i < importedObjects.length; i++) {
+            console.log(importedObjects[i]);
+            var object = importedObjects[i];
+            var type = object.type;
+
+            if (type == "Line") {
+                objects.push(importLine(object));
+            }
+
+            if (type == "Square") {
+                objects.push(importSquare(object));
+            }
+
+            if (type == "Rectangle") {
+                objects.push(importRectangle(object));
+            }
+        }
+    };
+    reader.readAsText(data);
+});
+
+// Button Shape Listener
 document.getElementById("line").addEventListener("mousedown", function (e) {
     drawType = "LINE";
     drawing = false;
@@ -69,10 +124,12 @@ document.getElementById("square").addEventListener("mousedown", function (e) {
     drawing = false;
 });
 
-document.getElementById("rectangle").addEventListener("mousedown", function (e) {
-    drawType = "RECTANGLE";
-    drawing = false;
-});
+document
+    .getElementById("rectangle")
+    .addEventListener("mousedown", function (e) {
+        drawType = "RECTANGLE";
+        drawing = false;
+    });
 
 // Canvas Listener
 canvas.addEventListener("mousedown", function (e) {
@@ -166,7 +223,6 @@ canvas.addEventListener("mousemove", function (e) {
             rectangle.updatePoint(point);
             rectangle.draw(gl, program, vBuffer, cBuffer);
         }
-
 
         // POLYGON
     }
