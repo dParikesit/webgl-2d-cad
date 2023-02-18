@@ -1,5 +1,6 @@
 import { Line } from "./models/Line.js";
 import { Point } from "./models/Point.js";
+import { Square } from "./models/Square.js";
 import { resizeCanvasToDisplaySize } from "./utils/tools.js";
 import {
     createProgram,
@@ -62,6 +63,11 @@ document.getElementById("line").addEventListener("mousedown", function (e) {
     drawing = false;
 });
 
+document.getElementById("square").addEventListener("mousedown", function(e) {
+    drawType = "SQUARE";
+    drawing = false;
+})
+
 // Canvas Listener
 canvas.addEventListener("mousedown", function (e) {
     let rect = gl.canvas.getBoundingClientRect();
@@ -69,6 +75,8 @@ canvas.addEventListener("mousedown", function (e) {
     let y = ((e.clientY - rect.top) / gl.canvas.height) * -2 + 1;
     var point = new Point([x, y]);
 
+
+    console.log(drawType)
     // LINE
     if (drawType == "LINE") {
         if (drawing) {
@@ -85,8 +93,27 @@ canvas.addEventListener("mousedown", function (e) {
 
             drawing = true; // then drawing mode when mouse move
         }
+
     }
     // SQUARE
+    if (drawType == "SQUARE") {
+        if (drawing) {
+            // second time mouse down, make line
+            let square = objects[objects.length - 1];
+            square.updatePoint(point);
+            square.draw(gl, program, vBuffer, cBuffer);
+            square.doneDraw();
+            
+            drawing = false;
+        } else {
+            // first time mouse down
+            let square = new Square(point);
+            objects.push(square);
+
+            console.log(square);
+            drawing = true; // then drawing mode when mouse move
+        }
+    }
 
     // RECTANGLE
 
@@ -106,7 +133,14 @@ canvas.addEventListener("mousemove", function (e) {
             line.updatePoint(point);
             line.draw(gl, program, vBuffer, cBuffer);
         }
+
         // SQUARE
+        if (drawType == "SQUARE") {
+            let square = objects[objects.length - 1];
+            square.updatePoint(point);
+            square.draw(gl, program, vBuffer, cBuffer);
+            console.log(square);
+        }
 
         // RECTANGLE
 

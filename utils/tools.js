@@ -26,4 +26,5 @@ export function genColor(){
     } else if (item == "blue") {
         return([0.0, 0.0, 1.0, 1.0]);
     }
+    return [0,0,0,1]
 }

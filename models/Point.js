@@ -17,4 +17,8 @@ export class Point {
             `Point with id ${this.id}, name ${this.name}, pos ${this.color}, color ${this.color}`
         );
     }
+
+    getPoint() {
+        return this.pos
+    }
 }

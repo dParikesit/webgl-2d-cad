@@ -23,7 +23,7 @@ export class Shape {
         // console.log(program)
         // console.log(vBuffer)
         // console.log(cBuffer)
-        console.log(points)
+        // console.log(points)
         // console.log(glTypes)
 
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
@@ -64,6 +64,6 @@ export class Shape {
         gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, stride, offset);
         gl.enableVertexAttribArray(vColor);
 
-        gl.drawArrays(glTypes, offset, pointsDraw.length+1);
+        gl.drawArrays(glTypes, offset, pointsDraw.length);
     }
 }
