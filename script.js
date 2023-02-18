@@ -1,4 +1,5 @@
 import { Point } from "./models/Point.js";
+import { Line } from "./models/Line.js";
 import { Square } from "./models/Square.js";
 import { Rectangle } from "./models/Rectangle.js";
 import { resizeCanvasToDisplaySize } from "./utils/tools.js";
