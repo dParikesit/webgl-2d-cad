@@ -1,26 +1,8 @@
-import {
-    createProgram,
-    createShader,
-    fsSource,
-    vsSource,
-} from "../utils/init-shader.js";
-import { resizeCanvasToDisplaySize } from "../utils/tools.js";
-
-import { gl } from "../script.js";
-
 export class Shape {
     constructor(id = -1, type = "Shape") {
         this.id = id;
         this.points = [];
         this.type = `${type}`;
-
-        resizeCanvasToDisplaySize(gl.canvas);
-
-        var vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
-        var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
-
-        this.program = createProgram(gl, vertexShader, fragmentShader);
-        gl.useProgram(this.program);
     }
 
     clone() {}
@@ -33,14 +15,17 @@ export class Shape {
 
     draw(event) {}
 
-    render(objType = gl.POINTS, points) {
+    render(gl, program, vBuffer, cBuffer, points, glTypes) {
         const pointsDraw = points.flatMap((item) => item.pos);
         const colorsDraw = points.flatMap((item) => item.color);
-        
-        // console.log(points);
-        // console.log(pointsDraw)
 
-        var vBuffer = gl.createBuffer();
+        // console.log(gl)
+        // console.log(program)
+        // console.log(vBuffer)
+        // console.log(cBuffer)
+        console.log(points)
+        // console.log(glTypes)
+
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
         gl.bufferData(
             gl.ARRAY_BUFFER,
@@ -48,7 +33,7 @@ export class Shape {
             gl.STATIC_DRAW
         );
         var positionAttributeLocation = gl.getAttribLocation(
-            this.program,
+            program,
             "vPosition"
         );
 
@@ -66,9 +51,8 @@ export class Shape {
             stride,
             offset
         );
+        
         gl.enableVertexAttribArray(positionAttributeLocation);
-
-        var cBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
         gl.bufferData(
             gl.ARRAY_BUFFER,
@@ -76,17 +60,10 @@ export class Shape {
             gl.STATIC_DRAW
         );
 
-        const vColor = gl.getAttribLocation(this.program, "vColor");
-        gl.vertexAttribPointer(
-            vColor, 
-            4, 
-            gl.FLOAT, 
-            false, 
-            stride, 
-            offset
-        );
+        const vColor = gl.getAttribLocation(program, "vColor");
+        gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, stride, offset);
         gl.enableVertexAttribArray(vColor);
 
-        gl.drawArrays(objType, offset, pointsDraw.length);
+        gl.drawArrays(glTypes, offset, pointsDraw.length+1);
     }
 }

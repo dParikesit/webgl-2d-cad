@@ -1,4 +1,3 @@
-import { gl } from "../script.js";
 import { Point } from "./Point.js";
 import { Shape } from "./Shape.js";
 
@@ -35,6 +34,9 @@ export class Polygon extends Shape {
         }
     }
 
+    glType(gl) {
+        return gl.TRIANGLES
+    }
 
     drawObjectInfo = () => {
         let inner = "<h1>Polygon Initiated</h1> <button id='test'> hai </button>";

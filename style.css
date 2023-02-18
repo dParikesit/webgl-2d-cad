@@ -13,8 +13,8 @@ body {
 
 canvas {
     border: 1px solid black;
-    width: 100%;
-    min-height: 100%;
+    width: 50vw;
+    min-height: 100vh;
     background-color: lightgray;
 }
 

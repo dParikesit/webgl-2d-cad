@@ -1,101 +1,194 @@
-"use strict";
-
-// import { Line } from "./models/shapes/Line.js"
-import { Polygon } from "./models/Polygon.js";
 import { Line } from "./models/Line.js";
-import { initDrawLine } from "./shapes/oldLine.js";
-import { initDrawPolygon } from "./shapes/polygon.js";
+import { Point } from "./models/Point.js";
 import { resizeCanvasToDisplaySize } from "./utils/tools.js";
+import {
+    createProgram,
+    createShader,
+    vsSource,
+    fsSource,
+} from "./utils/init-shader.js";
+
 import WebGLUtils from "./utils/webgl-utils.js";
 
-const canvas = document.getElementById("canvas");
-const polyAddPoint = document.getElementById("polyAddPoint");
-const polyDelPoint = document.getElementById("polyDelPoint");
-const objectCreated = document.getElementById("object-created");
-export const gl = WebGLUtils.setupWebGL(canvas);
-
+// ------------------------ INITIATE GL PROGRAM  ------------------------
+// Create program
+let canvas = document.getElementById("canvas");
+let gl = WebGLUtils.setupWebGL(canvas);
 if (!gl) {
     alert("WebGL isn't available");
 }
 
-resizeCanvasToDisplaySize(gl.canvas);
+let vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
+let fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+let program = createProgram(gl, vertexShader, fragmentShader);
 
+// Setup program
+gl.useProgram(program);
+
+// Setup viewport
+resizeCanvasToDisplaySize(gl.canvas);
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+// Clear color
 gl.clearColor(0, 0, 0, 0);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
-let drawing = false; 
-let obj = Object.create(null)
-let count = 0
+// Crete vBuffer and cBuffer
+let vBuffer = gl.createBuffer();
+let cBuffer = gl.createBuffer();
 
+//  ------------------------ GLOBAL VARIABLE  ------------------------
+// Global variables
+let objects = [];
+let drawing = false;
+let drawType = "";
+
+//  ------------------------ HELPER FUNCTIONS  ------------------------
+// Function
+const renderAllObject = () => {
+    for (let i = 0; i < objects.length; i++) {
+        objects[i].draw(gl, program, vBuffer, cBuffer);
+    }
+
+    window.requestAnimationFrame(renderAllObject);
+};
+
+renderAllObject();
+
+//  ------------------------ LISTENERS  ------------------------
+// Button Listener
 document.getElementById("line").addEventListener("mousedown", function (e) {
-    var line = new Line(0);
+    drawType = "LINE";
+    drawing = false; // means want to initiate first point see line 81-85
+});
 
-    canvas.addEventListener("mousedown", function (e) {
-        if (drawing){
-            count++;
-            obj[count] = line
-            console.log(obj)
+// Canvas Listener
+canvas.addEventListener("mousedown", function (e) {
+    let rect = gl.canvas.getBoundingClientRect();
+    let x = ((e.clientX - rect.left) / gl.canvas.width) * 2 - 1;
+    let y = ((e.clientY - rect.top) / gl.canvas.height) * -2 + 1;
+    var point = new Point([x, y]);
+    // LINE
+    if (drawType == "LINE") {
+        if (drawing) {
+            // second time mouse down, make line
+            let line = objects[objects.length - 1];
+            line.updatePoint(point);
+            line.draw(gl, program, vBuffer, cBuffer);
 
-            drawing = false
-            line.draw(e)
+            drawing = false;
         } else {
-            drawing = true
-            line.draw(e)
+            // first time mouse down
+            let line = new Line(point);
+            objects.push(line);
+
+            drawing = true; // then drawing mode when mouse move
         }
-    });
-    
-    canvas.addEventListener("mousemove" , function (e) {
-        line.mouseMoveHandler(e)
-    })
-    
+    }
+    // SQUARE
 
+    // RECTANGLE
+
+    // POLYGON
 });
 
-document.getElementById("square").addEventListener("mousedown", function (e) {
-    // initDrawSquare()
+canvas.addEventListener("mousemove", function (e) {
+    let rect = gl.canvas.getBoundingClientRect();
+    let x = ((e.clientX - rect.left) / gl.canvas.width) * 2 - 1;
+    let y = ((e.clientY - rect.top) / gl.canvas.height) * -2 + 1;
+    var point = new Point([x, y]);
+
+    if (drawing) {
+        // LINE
+        if (drawType == "LINE") {
+            let line = objects[objects.length - 1];
+            line.updatePoint(point);
+            line.draw(gl, program, vBuffer, cBuffer);
+        }
+        // SQUARE
+
+        // RECTANGLE
+
+        // POLYGON
+    }
 });
 
-document
-    .getElementById("rectangle")
-    .addEventListener("mousedown", function (e) {
-        // initDrawRectangle()
-    });
+// Listener
+// const polyAddPoint = document.getElementById("polyAddPoint");
+// const polyDelPoint = document.getElementById("polyDelPoint");
+// const objectCreated = document.getElementById("object-created");
 
-document.getElementById("polygon").addEventListener("mousedown", function (e) {
-    // initDrawPolygon();
-    // const polygon = new Polygon();
-    // canvas.addEventListener("mousedown", function (e) {
-    //     polygon.draw(e);
-    // });
+// let drawing = false;
+// let obj = Object.create(null)
+// let count = 0
 
-    const polygon = new Polygon();
-    canvas.addEventListener("mousedown", function (e) {
-        polygon.draw(e);
-    });
+// document.getElementById("line").addEventListener("mousedown", function (e) {
+//     var line = new Line();
 
-    showPolygonButton("block");
+//     canvas.addEventListener("mousedown", function (e) {
 
-    polyAddPoint.addEventListener("mousedown", function (e) {
-        polygon.addPolygonPoint();
-    });
+//         if (drawing){
+//             count++;
+//             obj[count]
+//             console.log(obj)
 
-    polyDelPoint.addEventListener("mousedown", function (e) {
-        polygon.delPolygonPoint();
-    });
+//             drawing = false
+//             line.draw(e)
+//         } else {
+//             drawing = true
+//             line.draw(e)
+//         }
+//     });
 
-    objectCreated.addEventListener("mousedown", function (e) {
-        alert("JALANNN")
-    });
-});
+//     canvas.addEventListener("mousemove" , function (e) {
+//         line.mouseMoveHandler(e)
+//     })
 
-function showPolygonButton(status) {
+// });
 
-    var polygonSection = document.getElementById("polygonSection");
-    // var x = document.getElementById("polyAddPoint");
-    // var y = document.getElementById("polyDelPoint");
-    // x.style.display = status;
-    // y.style.display = status;
-    polygonSection.style.display = status;
-}
+// document.getElementById("square").addEventListener("mousedown", function (e) {
+//     // initDrawSquare()
+// });
 
+// document
+//     .getElementById("rectangle")
+//     .addEventListener("mousedown", function (e) {
+//         // initDrawRectangle()
+//     });
+
+// document.getElementById("polygon").addEventListener("mousedown", function (e) {
+//     // initDrawPolygon();
+//     // const polygon = new Polygon();
+//     // canvas.addEventListener("mousedown", function (e) {
+//     //     polygon.draw(e);
+//     // });
+
+//     const polygon = new Polygon();
+//     canvas.addEventListener("mousedown", function (e) {
+//         polygon.draw(e);
+//     });
+
+//     showPolygonButton("block");
+
+//     polyAddPoint.addEventListener("mousedown", function (e) {
+//         polygon.addPolygonPoint();
+//     });
+
+//     polyDelPoint.addEventListener("mousedown", function (e) {
+//         polygon.delPolygonPoint();
+//     });
+
+//     objectCreated.addEventListener("mousedown", function (e) {
+//         alert("JALANNN")
+//     });
+// });
+
+// function showPolygonButton(status) {
+
+//     var polygonSection = document.getElementById("polygonSection");
+//     // var x = document.getElementById("polyAddPoint");
+//     // var y = document.getElementById("polyDelPoint");
+//     // x.style.display = status;
+//     // y.style.display = status;
+//     polygonSection.style.display = status;
+// }
