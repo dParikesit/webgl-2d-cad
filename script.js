@@ -106,6 +106,45 @@ const renderAllObject = () => {
 renderAllObject();
 
 //  ------------------------ LISTENERS  ------------------------
+// Object Listener
+document.getElementById("object-list").addEventListener("mousedown", function (e) {
+    let id = e.target.id.split("-")
+    if (id.length===1) {
+        id[0] = parseInt(id[0])
+        const obj = objects[id[0]];
+        console.log(`${obj.type} ${id[0]} clicked`)
+    } else{
+        id[0] = parseInt(id[0]);
+        id[1] = parseInt(id[1]);
+        const obj = objects[id[0]];
+        console.log(`${objects[id[0]].type} ${id[0]} Point ${id[1]} clicked`);
+        if (obj.type==="Line") {
+            if (id[1]===1) {
+                console.log("First point clicked")
+                console.log(obj.firstPoint.color)
+                obj.firstPoint.objListener();
+            } else if (id[1] === 2) {
+                console.log("Second point clicked");
+                obj.secondPoint.objListener();
+            }
+        } else if(obj.type==="Square" || obj.type==="Rectangle") {
+            if (id[1] === 1) {
+                console.log("First point clicked");
+                obj.firstPoint.objListener();
+            } else if (id[1] === 2) {
+                console.log("Second point clicked");
+                obj.secondPoint.objListener();
+            } else if (id[1] === 3) {
+                console.log("Third point clicked");
+                obj.thirdPoint.objListener();
+            } else if (id[1] === 4) {
+                console.log("Fourth point clicked");
+                obj.fourthPoint.objListener();
+            }
+        }
+    }
+})
+
 // Export Import Listener
 document.getElementById("export").addEventListener("mousedown", function (e) {
     let element = document.createElement("a");

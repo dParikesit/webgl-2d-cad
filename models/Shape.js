@@ -15,6 +15,8 @@ export class Shape {
 
     draw(event) {}
 
+    objListener() {}
+
     render(gl, program, vBuffer, cBuffer, points, glTypes) {
         const pointsDraw = points.flatMap((item) => item.pos);
         const colorsDraw = points.flatMap((item) => item.color);

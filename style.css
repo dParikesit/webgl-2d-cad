@@ -38,8 +38,10 @@ button {
 
 .shape {
     margin: 0;
+    margin-top: 0.5em;
 }
 
 .point {
     margin-left: 5%;
+    margin-top: 0.5em;
 }
