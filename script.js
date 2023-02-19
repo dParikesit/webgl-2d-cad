@@ -113,6 +113,7 @@ document.getElementById("object-list").addEventListener("mousedown", function (e
         id[0] = parseInt(id[0])
         const obj = objects[id[0]];
         console.log(`${obj.type} ${id[0]} clicked`)
+        obj.objListener(gl)
     } else{
         id[0] = parseInt(id[0]);
         id[1] = parseInt(id[1]);
@@ -121,7 +122,6 @@ document.getElementById("object-list").addEventListener("mousedown", function (e
         if (obj.type==="Line") {
             if (id[1]===1) {
                 console.log("First point clicked")
-                console.log(obj.firstPoint.color)
                 obj.firstPoint.objListener();
             } else if (id[1] === 2) {
                 console.log("Second point clicked");

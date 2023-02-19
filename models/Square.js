@@ -10,7 +10,7 @@ export class Square extends Shape {
     done = false;
 
     constructor(center) {
-        super(-1, "Square")
+        super(-1, "Square");
 
         this.center = center;
         this.drawObjectInfo();
@@ -32,8 +32,14 @@ export class Square extends Shape {
             program,
             vBuffer,
             cBuffer,
-            [this.firstPoint, this.fourthPoint, this.thirdPoint, this.secondPoint, this.firstPoint],
-            gl.TRIANGLE_FAN,
+            [
+                this.firstPoint,
+                this.fourthPoint,
+                this.thirdPoint,
+                this.secondPoint,
+                this.firstPoint,
+            ],
+            gl.TRIANGLE_FAN
         );
     }
 
@@ -56,26 +62,102 @@ export class Square extends Shape {
         this.firstPoint = firstPoint;
         this.secondPoint = secondPoint;
         this.thirdPoint = thirdPoint;
-        this.fourthPoint = fourthPoint
+        this.fourthPoint = fourthPoint;
         this.done = true;
     }
 
     getOtherPoints() {
         var cPoint = this.center.getPoint();
-        var a = cPoint[0]
-        var b = cPoint[1]
+        var a = cPoint[0];
+        var b = cPoint[1];
 
         var fPoint = this.firstPoint.getPoint();
-        var x = fPoint[0]
-        var y = fPoint[1]
+        var x = fPoint[0];
+        var y = fPoint[1];
 
         // rotate 90 degree by center
-        this.secondPoint = new Point([-y+a+b, x-a+b])
+        this.secondPoint = new Point([-y + a + b, x - a + b]);
 
         // rotate 180 degree by center
-        this.thirdPoint = new Point([-x+a+a, -y+b+b])
+        this.thirdPoint = new Point([-x + a + a, -y + b + b]);
 
         // rotate -90 degree by center
-        this.fourthPoint = new Point([y-b+a, -x+a+b])
+        this.fourthPoint = new Point([y - b + a, -x + a + b]);
+    }
+
+    getCenter() {
+        if (this.secondPoint === null) {
+            return;
+        }
+
+        let x =
+            this.firstPoint.pos[0] +
+            this.secondPoint.pos[0] +
+            this.thirdPoint.pos[0] +
+            this.fourthPoint.pos[0];
+        let y =
+            this.firstPoint.pos[1] +
+            this.secondPoint.pos[1] +
+            this.thirdPoint.pos[1] +
+            this.fourthPoint.pos[1];
+        return [x / 2, y / 2];
+    }
+
+    moveCenterX(newX) {
+        const [originX, _originY] = this.getCenter();
+        let delta = newX - originX;
+
+        let min = Math.min(
+            this.firstPoint.pos[0],
+            this.secondPoint.pos[0],
+            this.thirdPoint.pos[0],
+            this.fourthPoint.pos[0]
+        );
+        let max = Math.max(
+            this.firstPoint.pos[0],
+            this.secondPoint.pos[0],
+            this.thirdPoint.pos[0],
+            this.fourthPoint.pos[0]
+        );
+
+        if (min + delta <= -1) {
+            delta = -1 - min;
+        } else if (max + delta >= 1) {
+            delta = 1- max;
+        }
+
+        this.firstPoint.pos[0] += delta;
+        this.secondPoint.pos[0] += delta;
+        this.thirdPoint.pos[0] += delta;
+        this.fourthPoint.pos[0] += delta;
+    }
+
+    moveCenterY(newY) {
+        const [_originX, originY] = this.getCenter();
+        let delta = newY - originY;
+
+        let min = Math.min(
+            this.firstPoint.pos[1],
+            this.secondPoint.pos[1],
+            this.thirdPoint.pos[1],
+            this.fourthPoint.pos[1]
+        );
+        let max = Math.max(
+            this.firstPoint.pos[1],
+            this.secondPoint.pos[1],
+            this.thirdPoint.pos[1],
+            this.fourthPoint.pos[1]
+        );
+
+        if (min + delta <= -1) {
+            delta = -1 - min;
+        } else if (max + delta >= 1) {
+            delta = 1 - max;
+        }
+
+        this.firstPoint.pos[1] += delta;
+        this.secondPoint.pos[1] += delta;
+        this.thirdPoint.pos[1] += delta;
+        this.fourthPoint.pos[1] += delta;
     }
 }

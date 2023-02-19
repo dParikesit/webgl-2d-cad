@@ -6,7 +6,7 @@ export class Line extends Shape {
     secondPoint = null;
 
     constructor(firstPoint) {
-        super(-1, "Line")
+        super(-1, "Line");
 
         this.firstPoint = firstPoint;
         this.drawObjectInfo();
@@ -30,7 +30,7 @@ export class Line extends Shape {
             vBuffer,
             cBuffer,
             [this.firstPoint, this.secondPoint],
-            gl.LINES,
+            gl.LINES
         );
     }
 
@@ -47,5 +47,49 @@ export class Line extends Shape {
     updatePointFromImport(firstPoint, secondPoint) {
         this.firstPoint = firstPoint;
         this.secondPoint = secondPoint;
+    }
+
+    getCenter() {
+        if (this.secondPoint === null) {
+            return;
+        }
+
+        let x = this.firstPoint.pos[0] + this.secondPoint.pos[0];
+        let y = this.firstPoint.pos[1] + this.secondPoint.pos[1];
+        return [x / 2, y / 2];
+    }
+
+    moveCenterX(newX) {
+        const [originX, _originY] = this.getCenter();
+        let delta = newX - originX;
+
+        let min = Math.min(this.firstPoint.pos[0], this.secondPoint.pos[0]);
+        let max = Math.max(this.firstPoint.pos[0], this.secondPoint.pos[0]);
+
+        if (min + delta <= -1) {
+            delta = -1 - min;
+        } else if (max + delta >= 1) {
+            delta = 1 - max;
+        }
+
+        this.firstPoint.pos[0] += delta;
+        this.secondPoint.pos[0] += delta;
+    }
+
+    moveCenterY(newY) {
+        const [_originX, originY] = this.getCenter();
+        let delta = newY - originY;
+
+        let min = Math.min(this.firstPoint.pos[1], this.secondPoint.pos[1]);
+        let max = Math.max(this.firstPoint.pos[1], this.secondPoint.pos[1]);
+
+        if (min + delta <= -1) {
+            delta = -1 - min;
+        } else if (max + delta >= 1) {
+            delta = 1 - max;
+        }
+
+        this.firstPoint.pos[1] += delta;
+        this.secondPoint.pos[1] += delta;
     }
 }
