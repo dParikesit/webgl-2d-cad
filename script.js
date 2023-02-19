@@ -1,17 +1,21 @@
-import { Point } from "./models/Point.js";
 import { Line } from "./models/Line.js";
-import { Square } from "./models/Square.js";
+import { Point } from "./models/Point.js";
 import { Rectangle } from "./models/Rectangle.js";
-import { resizeCanvasToDisplaySize } from "./utils/tools.js";
+import { Square } from "./models/Square.js";
 import {
     createProgram,
     createShader,
-    vsSource,
     fsSource,
+    vsSource,
 } from "./utils/init-shader.js";
+import { resizeCanvasToDisplaySize } from "./utils/tools.js";
 
+import {
+    importLine,
+    importRectangle,
+    importSquare,
+} from "./utils/import-object.js";
 import WebGLUtils from "./utils/webgl-utils.js";
-import { importLine, importRectangle, importSquare } from "./utils/import-object.js";
 
 // ------------------------ INITIATE GL PROGRAM  ------------------------
 // Create program
@@ -49,10 +53,10 @@ let drawType = "";
 //  ------------------------ HELPER FUNCTIONS  ------------------------
 // Function
 const createShapeButton = (id, type) => {
-    const element = document.createElement("button")
-    element.id = id
-    element.className = "shape"
-    element.innerHTML = `${type} ${id}`
+    const element = document.createElement("button");
+    element.id = id;
+    element.className = "shape";
+    element.innerHTML = `${type} ${id}`;
     return element;
 };
 
@@ -62,6 +66,26 @@ const createPointButton = (idParent, idPoint) => {
     element.className = "point";
     element.innerHTML = `Point ${idPoint}`;
     return element;
+};
+
+const createAllButton = (id) => {
+    let objectsButton = document.getElementById("object-list");
+    if (objects[id].type === "Line") {
+        objectsButton.appendChild(createPointButton(id, 1));
+        objectsButton.appendChild(createPointButton(id, 2));
+    } else if (
+        objects[id].type === "Square" ||
+        objects[id].type === "Rectangle"
+    ) {
+        objectsButton.appendChild(createPointButton(id, 1));
+        objectsButton.appendChild(createPointButton(id, 2));
+        objectsButton.appendChild(createPointButton(id, 3));
+        objectsButton.appendChild(createPointButton(id, 4));
+    } else {
+        for (let j = 0; j < objects[i].points.length; j++) {
+            objectsButton.appendChild(createPointButton(i, j));
+        }
+    }
 };
 
 const renderAllObject = () => {
@@ -75,12 +99,8 @@ const renderAllObject = () => {
     objectsButton.replaceChildren();
     for (let i = 0; i < objects.length; i++) {
         objectsButton.appendChild(createShapeButton(i, objects[i].type));
-        for (let j = 0; j < objects[i].points.length; j++) {
-            objectsButton.appendChild(createPointButton(i, j));
-        }
+        createAllButton(i)
     }
-
-    
 };
 
 renderAllObject();
