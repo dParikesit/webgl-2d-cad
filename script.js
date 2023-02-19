@@ -48,12 +48,39 @@ let drawType = "";
 
 //  ------------------------ HELPER FUNCTIONS  ------------------------
 // Function
+const createShapeButton = (id, type) => {
+    const element = document.createElement("button")
+    element.id = id
+    element.className = "shape"
+    element.innerHTML = `${type} ${id}`
+    return element;
+};
+
+const createPointButton = (idParent, idPoint) => {
+    const element = document.createElement("button");
+    element.id = `${idParent}-${idPoint}`;
+    element.className = "point";
+    element.innerHTML = `Point ${idPoint}`;
+    return element;
+};
+
 const renderAllObject = () => {
     for (let i = 0; i < objects.length; i++) {
         objects[i].draw(gl, program, vBuffer, cBuffer);
     }
 
     window.requestAnimationFrame(renderAllObject);
+
+    let objectsButton = document.getElementById("object-list");
+    objectsButton.replaceChildren();
+    for (let i = 0; i < objects.length; i++) {
+        objectsButton.appendChild(createShapeButton(i, objects[i].type));
+        for (let j = 0; j < objects[i].points.length; j++) {
+            objectsButton.appendChild(createPointButton(i, j));
+        }
+    }
+
+    
 };
 
 renderAllObject();

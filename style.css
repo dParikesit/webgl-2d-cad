@@ -30,3 +30,16 @@ canvas {
 button {
     min-width: 7em;
 }
+
+.container-object {
+    display: flex;
+    flex-direction: column;
+}
+
+.shape {
+    margin: 0;
+}
+
+.point {
+    margin-left: 5%;
+}
