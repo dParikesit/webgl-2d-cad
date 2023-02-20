@@ -34,26 +34,6 @@ export class Shape {
         const [originX, _originY] = this.getCenter();
         let delta = newX - originX;
 
-        let min = this.points[0][0]
-        let max = this.points[0][0];
-
-        for (let i = 0; i < this.points.length; i++) {
-            if (this.points[i][0] < min) {
-                min = this.points[i][0];
-            }
-
-            if (this.points[i][0] > max) {
-                max = this.points[i][0];
-            }
-
-        }
-
-        if (min + delta <= -1) {
-            delta = -1 - min;
-        } else if (max + delta >= 1) {
-            delta = 1 - max;
-        }
-
         for (let i = 0; i < this.points.length; i++) {
             this.points[i].pos[0] += delta;
         }
@@ -63,27 +43,20 @@ export class Shape {
         const [_originX, originY] = this.getCenter();
         let delta = newY - originY;
 
-        let min = this.points[0][1];
-        let max = this.points[0][1];
-
-        for (let i = 0; i < this.points.length; i++) {
-            if (this.points[i][1] < min) {
-                min = this.points[i][1];
-            }
-
-            if (this.points[i][1] > max) {
-                max = this.points[i][1];
-            }
-        }
-
-        if (min + delta <= -1) {
-            delta = -1 - min;
-        } else if (max + delta >= 1) {
-            delta = 1 - max;
-        }
-
         for (let i = 0; i < this.points.length; i++) {
             this.points[i].pos[1] += delta;
+        }
+    }
+
+    rotate(degree){
+        const radian = degree * (Math.PI / 180);
+        const [originX, originY] = this.getCenter();
+        for (let i = 0; i < this.points.length; i++) {
+            const oldX = this.points[i].pos[0];
+            const oldY = this.points[i].pos[1];
+
+            this.points[i].pos[0] = originX + ((oldX-originX)*Math.cos(radian)) - ((oldY-originY)*Math.sin(radian));
+            this.points[i].pos[1] = originY + ((oldX-originX)*Math.sin(radian)) + ((oldY-originY)*Math.cos(radian));
         }
     }
 
@@ -131,7 +104,29 @@ export class Shape {
 
         div1.append(h11, h21, sliderX, h22, sliderY);
 
-        toolsSect.append(div1);
+        const div2 = document.createElement("div");
+        div1.className = "container-object";
+        const h1 = document.createElement("h1");
+        h1.innerHTML = "Rotasi";
+
+        const h2 = document.createElement("h2");
+        h2.innerHTML = "Sudut";
+        const sliderDeg = document.createElement("input");
+        sliderDeg.type = "range";
+        // sliderX.min = ((rect.left - rect.left) / gl.canvas.width) * 2 - 1;
+        // sliderX.max = ((rect.right - rect.left) / gl.canvas.width) * 2 - 1;
+        sliderDeg.min = 0;
+        sliderDeg.max = 360;
+        sliderDeg.value = 0;
+        sliderDeg.step = "1";
+        sliderDeg.addEventListener("change", (e) => {
+            console.log(e.target.value);
+            this.rotate(e.target.value);
+        });
+
+        div2.append(h1, h2, sliderDeg);
+
+        toolsSect.append(div1, div2);
     }
 
     render(gl, program, vBuffer, cBuffer, points, glTypes) {
