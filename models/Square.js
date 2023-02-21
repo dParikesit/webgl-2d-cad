@@ -147,4 +147,8 @@ export class Square extends Shape {
         this.fourthPoint.pos[0] = originX + ((oldX-originX)*Math.cos(radian)) - ((oldY-originY)*Math.sin(radian));
         this.fourthPoint.pos[1] = originY + ((oldX-originX)*Math.sin(radian)) + ((oldY-originY)*Math.cos(radian));
     }
+
+    calculateLength(){
+        return euclidianDist(this.firstPoint, this.secondPoint)
+    }
 }

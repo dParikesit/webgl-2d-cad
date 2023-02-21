@@ -48,15 +48,21 @@ export class Shape {
         }
     }
 
-    rotate(degree){
+    rotate(degree) {
         const radian = degree * (Math.PI / 180);
         const [originX, originY] = this.getCenter();
         for (let i = 0; i < this.points.length; i++) {
             const oldX = this.points[i].pos[0];
             const oldY = this.points[i].pos[1];
 
-            this.points[i].pos[0] = originX + ((oldX-originX)*Math.cos(radian)) - ((oldY-originY)*Math.sin(radian));
-            this.points[i].pos[1] = originY + ((oldX-originX)*Math.sin(radian)) + ((oldY-originY)*Math.cos(radian));
+            this.points[i].pos[0] =
+                originX +
+                (oldX - originX) * Math.cos(radian) -
+                (oldY - originY) * Math.sin(radian);
+            this.points[i].pos[1] =
+                originY +
+                (oldX - originX) * Math.sin(radian) +
+                (oldY - originY) * Math.cos(radian);
         }
     }
 
@@ -67,18 +73,19 @@ export class Shape {
         let toolsSect = document.getElementById("transformation");
         toolsSect.replaceChildren();
 
-        const div1 = document.createElement("div");
-        div1.className = "container-object";
-        const h11 = document.createElement("h1");
-        h11.innerHTML = "Translasi";
+        // first div
+        const firstDiv = document.createElement("div");
+        firstDiv.className = "container-transformation-list-1";
+        const translation = document.createElement("h1");
+        translation.innerHTML = "Translasi";
 
-        const h21 = document.createElement("h2");
-        h21.innerHTML = "Slider X";
+        const sliderXTitle = document.createElement("h2");
+        sliderXTitle.innerHTML = "Slider X";
         const sliderX = document.createElement("input");
         sliderX.type = "range";
         // sliderX.min = ((rect.left - rect.left) / gl.canvas.width) * 2 - 1;
         // sliderX.max = ((rect.right - rect.left) / gl.canvas.width) * 2 - 1;
-        sliderX.min = - 1;
+        sliderX.min = -1;
         sliderX.max = 1;
         sliderX.value = 0;
         sliderX.step = "0.01";
@@ -87,8 +94,8 @@ export class Shape {
             this.moveCenterX(e.target.value);
         });
 
-        const h22 = document.createElement("h2");
-        h22.innerHTML = "Slider Y";
+        const sliderYTitle = document.createElement("h2");
+        sliderYTitle.innerHTML = "Slider Y";
         const sliderY = document.createElement("input");
         sliderY.type = "range";
         // sliderY.min = ((rect.top - rect.top) / gl.canvas.height) * -2 + 1;
@@ -102,15 +109,22 @@ export class Shape {
             this.moveCenterY(e.target.value);
         });
 
-        div1.append(h11, h21, sliderX, h22, sliderY);
+        firstDiv.append(
+            translation,
+            sliderXTitle,
+            sliderX,
+            sliderYTitle,
+            sliderY
+        );
 
-        const div2 = document.createElement("div");
-        div1.className = "container-object";
-        const h1 = document.createElement("h1");
-        h1.innerHTML = "Rotasi";
+        // second div
+        const secondDiv = document.createElement("div");
+        secondDiv.className = "container-transformation-list-2";
+        const rotation = document.createElement("h1");
+        rotation.innerHTML = "Rotasi";
 
-        const h2 = document.createElement("h2");
-        h2.innerHTML = "Sudut";
+        const degTitle = document.createElement("h2");
+        degTitle.innerHTML = "Sudut";
         const sliderDeg = document.createElement("input");
         sliderDeg.type = "range";
         // sliderX.min = ((rect.left - rect.left) / gl.canvas.width) * 2 - 1;
@@ -124,10 +138,45 @@ export class Shape {
             this.rotate(e.target.value);
         });
 
-        div2.append(h1, h2, sliderDeg);
+        secondDiv.append(rotation, degTitle, sliderDeg);
 
-        toolsSect.append(div1, div2);
+        // third div
+        const thirdDiv = document.createElement("div");
+        thirdDiv.className = "container-transformation-list-3";
+        const sizeTitle = document.createElement("h1");
+        sizeTitle.innerHTML = "Ukuran";
+
+        // first inner third div
+        const heightTitle = document.createElement("h2");
+        heightTitle.innerHTML = "Panjang";
+        const sliderHeight = document.createElement("input");
+        sliderHeight.type = "range";
+        sliderHeight.min = 0;
+        sliderHeight.max = 1;
+        sliderHeight.value = 0;
+        sliderHeight.step = "1";
+
+        const widthTitle = document.createElement("h2");
+        widthTitle.innerHTML = "Lebar";
+        const sliderWidth = document.createElement("input");
+        sliderWidth.type = "range";
+        sliderWidth.min = 0;
+        sliderWidth.max = 1;
+        sliderWidth.value = 0;
+        sliderWidth.step = "1";
+
+        thirdDiv.append(
+            sizeTitle,
+            heightTitle,
+            sliderHeight,
+            widthTitle,
+            sliderWidth
+        );
+
+        toolsSect.append(firstDiv, secondDiv, thirdDiv);
     }
+
+    setupSlider() {}
 
     render(gl, program, vBuffer, cBuffer, points, glTypes) {
         const pointsDraw = points.flatMap((item) => item.pos);

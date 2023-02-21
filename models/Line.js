@@ -89,4 +89,8 @@ export class Line extends Shape {
         this.secondPoint.pos[0] = originX + ((oldX-originX)*Math.cos(radian)) - ((oldY-originY)*Math.sin(radian));
         this.secondPoint.pos[1] = originY + ((oldX-originX)*Math.sin(radian)) + ((oldY-originY)*Math.cos(radian));
     }
+
+    calculateLength(){
+        return euclidianDist(this.firstPoint, this.secondPoint)
+    }
 }

@@ -73,4 +73,12 @@ export class Rectangle extends Shape {
         // rotate -90 degree by center
         this.fourthPoint = new Point([x, b])
     }
+
+    calculateWidth(){
+        return euclidianDist(this.firstPoint, this.thirdPoint)
+    }
+
+    calculateLength(){
+        return euclidianDist(this.firstPoint, this.fourthPoint)
+    }
 }

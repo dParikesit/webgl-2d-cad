@@ -1,4 +1,5 @@
 import { genColor } from "../utils/tools.js";
+import { euclidianDist } from "../utils/math.js";
 
 export class Point {
     constructor(pos, id = -1, color = genColor()) {

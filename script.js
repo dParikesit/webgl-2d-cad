@@ -315,6 +315,25 @@ canvas.addEventListener("mousemove", function (e) {
     }
 });
 
+// ------------------------ HELP ------------------------
+
+// When the user clicks on the button, open the modal
+document.getElementById("myBtn").addEventListener("mousedown", function (e) {
+    document.getElementById("myModal").style.display = "block";
+});
+
+// When the user clicks on <span> (x), close the modal
+document.getElementById("close").addEventListener("mousedown", function (e) {
+    document.getElementById("myModal").style.display = "none";
+});
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == document.getElementById("myModal")) {
+    document.getElementById("myModal").style.display = "none";
+  }
+}
+
 // Listener
 // const polyAddPoint = document.getElementById("polyAddPoint");
 // const polyDelPoint = document.getElementById("polyDelPoint");
