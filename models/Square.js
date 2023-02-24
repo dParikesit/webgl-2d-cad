@@ -9,10 +9,18 @@ export class Square extends Shape {
     fourthPoint = null;
     done = false;
 
+    oldCenter;
+    oldFirstPoint;
+    oldSecondPoint;
+    oldThirdPoint;
+    oldFourthPoint;
+    deltaValue = 0;
+
     constructor(center) {
         super(-1, "Square");
 
         this.center = center;
+        this.oldCenter = JSON.parse(JSON.stringify(center));
         this.drawObjectInfo();
     }
 
@@ -49,6 +57,7 @@ export class Square extends Shape {
 
     updatePoint(temporarySecondPoint) {
         this.firstPoint = temporarySecondPoint;
+        this.oldFirstPoint = JSON.parse(JSON.stringify(temporarySecondPoint));
     }
 
     drawObjectInfo = () => {
@@ -123,32 +132,108 @@ export class Square extends Shape {
         this.fourthPoint.pos[1] += delta;
     }
 
-    rotate(degree){
+    rotate(degree) {
         const radian = degree * (Math.PI / 180);
         const [originX, originY] = this.getCenter();
-        
+
         let oldX = this.firstPoint.pos[0];
         let oldY = this.firstPoint.pos[1];
-        this.firstPoint.pos[0] = originX + ((oldX-originX)*Math.cos(radian)) - ((oldY-originY)*Math.sin(radian));
-        this.firstPoint.pos[1] = originY + ((oldX-originX)*Math.sin(radian)) + ((oldY-originY)*Math.cos(radian));
+        this.firstPoint.pos[0] =
+            originX +
+            (oldX - originX) * Math.cos(radian) -
+            (oldY - originY) * Math.sin(radian);
+        this.firstPoint.pos[1] =
+            originY +
+            (oldX - originX) * Math.sin(radian) +
+            (oldY - originY) * Math.cos(radian);
 
         oldX = this.secondPoint.pos[0];
         oldY = this.secondPoint.pos[1];
-        this.secondPoint.pos[0] = originX + ((oldX-originX)*Math.cos(radian)) - ((oldY-originY)*Math.sin(radian));
-        this.secondPoint.pos[1] = originY + ((oldX-originX)*Math.sin(radian)) + ((oldY-originY)*Math.cos(radian));
+        this.secondPoint.pos[0] =
+            originX +
+            (oldX - originX) * Math.cos(radian) -
+            (oldY - originY) * Math.sin(radian);
+        this.secondPoint.pos[1] =
+            originY +
+            (oldX - originX) * Math.sin(radian) +
+            (oldY - originY) * Math.cos(radian);
 
         oldX = this.thirdPoint.pos[0];
         oldY = this.thirdPoint.pos[1];
-        this.thirdPoint.pos[0] = originX + ((oldX-originX)*Math.cos(radian)) - ((oldY-originY)*Math.sin(radian));
-        this.thirdPoint.pos[1] = originY + ((oldX-originX)*Math.sin(radian)) + ((oldY-originY)*Math.cos(radian));
+        this.thirdPoint.pos[0] =
+            originX +
+            (oldX - originX) * Math.cos(radian) -
+            (oldY - originY) * Math.sin(radian);
+        this.thirdPoint.pos[1] =
+            originY +
+            (oldX - originX) * Math.sin(radian) +
+            (oldY - originY) * Math.cos(radian);
 
         oldX = this.fourthPoint.pos[0];
         oldY = this.fourthPoint.pos[1];
-        this.fourthPoint.pos[0] = originX + ((oldX-originX)*Math.cos(radian)) - ((oldY-originY)*Math.sin(radian));
-        this.fourthPoint.pos[1] = originY + ((oldX-originX)*Math.sin(radian)) + ((oldY-originY)*Math.cos(radian));
+        this.fourthPoint.pos[0] =
+            originX +
+            (oldX - originX) * Math.cos(radian) -
+            (oldY - originY) * Math.sin(radian);
+        this.fourthPoint.pos[1] =
+            originY +
+            (oldX - originX) * Math.sin(radian) +
+            (oldY - originY) * Math.cos(radian);
     }
 
-    calculateLength(){
-        return euclidianDist(this.firstPoint, this.secondPoint)
+    calculateLength() {
+        return euclidianDist(this.firstPoint, this.secondPoint);
+    }
+
+    calculate(x, x1, y1, x2, y2) {
+        let m = parseFloat((y2 - y1) / (x2 - x1));
+        let c = parseFloat(y1 - parseFloat(m * x1));
+
+        return parseFloat(parseFloat(m * x) + c);
+    }
+
+    changeHeight(delta) {
+        console.log(delta)
+        let oldX = this.oldFirstPoint.pos[0];
+        let oldY = this.oldFirstPoint.pos[1];
+        let newX = parseFloat(oldX) + parseFloat(delta);
+        let newY = this.calculate(
+            newX,
+            oldX,
+            oldY,
+            this.center.pos[0],
+            this.center.pos[1]
+        );
+
+        this.firstPoint.pos[0] = newX;
+        this.firstPoint.pos[1] = parseFloat(newY);
+
+        this.getOtherPoints();
+    }
+
+    thirdDivSetup() {
+        // third div
+        const thirdDiv = document.createElement("div");
+        thirdDiv.className = "container-transformation-list-3";
+        const sizeTitle = document.createElement("h1");
+        sizeTitle.innerHTML = "Ukuran";
+
+        // first inner third div
+        const heightTitle = document.createElement("h2");
+        heightTitle.innerHTML = "Panjang";
+        const sliderHeight = document.createElement("input");
+        sliderHeight.type = "range";
+        sliderHeight.min = -1;
+        sliderHeight.max = 1;
+        sliderHeight.value = this.deltaValue;
+        sliderHeight.step = "0.01";
+        sliderHeight.addEventListener("input", (e) => {
+            this.changeHeight(e.target.value);
+            this.deltaValue = e.target.value;
+        });
+
+        thirdDiv.append(sizeTitle, heightTitle, sliderHeight);
+
+        return thirdDiv;
     }
 }
