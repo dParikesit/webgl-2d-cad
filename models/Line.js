@@ -40,8 +40,8 @@ export class Line extends Shape {
     }
 
     updatePoint(temporarySecondPoint) {
-        this.oldSecondPoint = JSON.parse(JSON.stringify(temporarySecondPoint));
         this.secondPoint = temporarySecondPoint;
+        this.oldSecondPoint = JSON.parse(JSON.stringify(temporarySecondPoint));
     }
 
     drawObjectInfo = () => {

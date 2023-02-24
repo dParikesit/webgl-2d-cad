@@ -70,8 +70,8 @@ export class Shape {
     thirdDivSetup() {}
 
     objListener(gl) {
-        let rect = gl.canvas.getBoundingClientRect();
-        const [centerX, centerY] = this.getCenter();
+        // let rect = gl.canvas.getBoundingClientRect();
+        // const [centerX, centerY] = this.getCenter();
 
         let toolsSect = document.getElementById("transformation");
         toolsSect.replaceChildren();
