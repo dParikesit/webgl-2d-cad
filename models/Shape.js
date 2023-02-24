@@ -222,6 +222,6 @@ export class Shape {
         gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, stride, offset);
         gl.enableVertexAttribArray(vColor);
 
-        gl.drawArrays(glTypes, offset, pointsDraw.length);
+        gl.drawArrays(glTypes, offset, pointsDraw.length/2);
     }
 }
