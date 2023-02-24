@@ -66,6 +66,9 @@ export class Shape {
         }
     }
 
+    // To setup between height or width
+    thirdDivSetup() {}
+
     objListener(gl) {
         let rect = gl.canvas.getBoundingClientRect();
         const [centerX, centerY] = this.getCenter();
@@ -164,16 +167,8 @@ export class Shape {
         sliderWidth.max = 1;
         sliderWidth.value = 0;
         sliderWidth.step = "1";
-
-        thirdDiv.append(
-            sizeTitle,
-            heightTitle,
-            sliderHeight,
-            widthTitle,
-            sliderWidth
-        );
-
-        toolsSect.append(firstDiv, secondDiv, thirdDiv);
+        
+        toolsSect.append(firstDiv, secondDiv, this.thirdDivSetup());
     }
 
     setupSlider() {}
