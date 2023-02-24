@@ -2,6 +2,7 @@ import { Line } from "./models/Line.js";
 import { Point } from "./models/Point.js";
 import { Rectangle } from "./models/Rectangle.js";
 import { Square } from "./models/Square.js";
+import { Polygon } from "./models/Polygon.js";
 import {
     createProgram,
     createShader,
@@ -82,8 +83,8 @@ const createAllButton = (id) => {
         objectsButton.appendChild(createPointButton(id, 3));
         objectsButton.appendChild(createPointButton(id, 4));
     } else {
-        for (let j = 0; j < objects[i].points.length; j++) {
-            objectsButton.appendChild(createPointButton(i, j));
+        for (let j = 0; j < objects[id].points.length; j++) {
+            objectsButton.appendChild(createPointButton(id, j));
         }
     }
 };
@@ -218,6 +219,14 @@ document
         drawing = false;
     });
 
+document
+    .getElementById("polygon")
+    .addEventListener("mousedown", function (e) {
+        drawType = "POLYGON";
+        drawing = false;
+    });
+
+
 // Canvas Listener
 canvas.addEventListener("mousedown", function (e) {
     let rect = gl.canvas.getBoundingClientRect();
@@ -281,6 +290,22 @@ canvas.addEventListener("mousedown", function (e) {
     }
 
     // POLYGON
+    if (drawType == "POLYGON") {
+        if(drawing){
+            let polygon = objects[objects.length - 1];
+            // polygon.updatePoint(point);
+            polygon.updateFixedPoint(point);
+            polygon.draw(gl, program, vBuffer, cBuffer);
+            // polygon.doneDraw();
+
+            // drawing = false
+        }else{
+            let polygon = new Polygon(point);
+            objects.push(polygon);
+
+            drawing = true; // then drawing mode when mouse move
+        }
+    }
 });
 
 canvas.addEventListener("mousemove", function (e) {
@@ -312,6 +337,11 @@ canvas.addEventListener("mousemove", function (e) {
         }
 
         // POLYGON
+        if (drawType == "POLYGON") {
+            let polygon = objects[objects.length - 1];
+            polygon.updatePoint(point);
+            polygon.draw(gl, program, vBuffer, cBuffer);
+        }
     }
 });
 
