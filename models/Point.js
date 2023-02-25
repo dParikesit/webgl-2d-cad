@@ -23,6 +23,12 @@ export class Point {
         let styleSect = document.getElementById("style");
         styleSect.replaceChildren();
 
+        // First Div Point
+        const firstDivPoint = document.createElement("div");
+        firstDivPoint.className = "container-transformation-list-1";
+        const colorSelector = document.createElement("h2");
+        colorSelector.innerHTML = "Color Selector";
+
         const element = document.createElement("select");
         if (this.color == [1, 0, 0, 1]) {
             element.value = "Red";
@@ -57,7 +63,57 @@ export class Point {
             }
         });
 
-        styleSect.appendChild(element)
+        firstDivPoint.append(colorSelector, element)
+
+        // First Div Point
+        const secondDivPoint = document.createElement("div");
+        secondDivPoint.className = "container-transformation-list-1";
+        const pointSlider = document.createElement("h2");
+        pointSlider.innerHTML = "Point Slider";
+
+
+        const sliderXTitle = document.createElement("h3");
+        sliderXTitle.innerHTML = "Slider X";
+        const sliderX = document.createElement("input");
+        sliderX.type = "range";
+        sliderX.min = -1;
+        sliderX.max = 1;
+        sliderX.value = 0;
+        sliderX.step = "0.01";
+        sliderX.addEventListener("input", (e) => {
+            console.log(e.target.value);
+            this.movePointX(e.target.value);
+        });
+
+        const sliderYTitle = document.createElement("h3");
+        sliderYTitle.innerHTML = "Slider Y";
+        const sliderY = document.createElement("input");
+        sliderY.type = "range";
+        sliderY.min = -1;
+        sliderY.max = 1;
+        sliderY.value = 0;
+        sliderY.step = "0.01";
+        sliderY.addEventListener("input", (e) => {
+            console.log(e.target.value);
+            this.movePointY(e.target.value);
+        });
+
+        secondDivPoint.append(sliderXTitle)
+        secondDivPoint.append(sliderX)
+        secondDivPoint.append(sliderYTitle)
+        secondDivPoint.append(sliderY)
+
+        styleSect.append(firstDivPoint, secondDivPoint)
+    }
+
+    movePointX(newX){
+        console.log("masuk fungsi x", newX)
+        this.pos[0] = newX
+    }
+
+    movePointY(newY){
+        console.log("masuk fungsi y", newY)
+        this.pos[1] = newY
     }
 
     getPoint() {
