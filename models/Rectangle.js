@@ -72,6 +72,10 @@ export class Rectangle extends Shape {
         this.thirdPoint = thirdPoint;
         this.fourthPoint = fourthPoint;
         this.done = true;
+
+        this.oldFirstPoint = JSON.parse(JSON.stringify(firstPoint));
+        this.oldSecondPoint = JSON.parse(JSON.stringify(secondPoint));
+        this.getOtherPoints();
     }
 
     getOtherPoints() {

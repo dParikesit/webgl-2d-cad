@@ -73,9 +73,11 @@ export class Square extends Shape {
         this.thirdPoint = thirdPoint;
         this.fourthPoint = fourthPoint;
         this.done = true;
+
+        this.oldFirstPoint = JSON.parse(JSON.stringify(firstPoint));
     }
 
-    getOtherPoints() {
+    getOtherPoints(scale = false) {
         var cPoint = this.center.getPoint();
         var a = cPoint[0];
         var b = cPoint[1];
@@ -84,14 +86,20 @@ export class Square extends Shape {
         var x = fPoint[0];
         var y = fPoint[1];
 
-        // rotate 90 degree by center
-        this.secondPoint = new Point([-y + a + b, x - a + b]);
-
-        // rotate 180 degree by center
-        this.thirdPoint = new Point([-x + a + a, -y + b + b]);
-
-        // rotate -90 degree by center
-        this.fourthPoint = new Point([y - b + a, -x + a + b]);
+        if (scale) {
+            // rotate 90 degree by center
+            this.secondPoint = new Point([-y + a + b, x - a + b], -1, this.secondPoint.color);
+    
+            // rotate 180 degree by center
+            this.thirdPoint = new Point([-x + a + a, -y + b + b], -1, this.thirdPoint.color);
+    
+            // rotate -90 degree by center
+            this.fourthPoint = new Point([y - b + a, -x + a + b], -1, this.fourthPoint.color);
+        } else {
+            this.secondPoint = new Point([-y + a + b, x - a + b]);
+            this.thirdPoint = new Point([-x + a + a, -y + b + b]);
+            this.fourthPoint = new Point([y - b + a, -x + a + b]);
+        }
     }
 
     getCenter() {
@@ -208,7 +216,7 @@ export class Square extends Shape {
         this.firstPoint.pos[0] = newX;
         this.firstPoint.pos[1] = parseFloat(newY);
 
-        this.getOtherPoints();
+        this.getOtherPoints(true);
     }
 
     thirdDivSetup() {

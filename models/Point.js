@@ -63,4 +63,8 @@ export class Point {
     getPoint() {
         return this.pos;
     }
+
+    getColor() {
+        return this.color
+    }
 }

@@ -53,6 +53,7 @@ export class Line extends Shape {
     updatePointFromImport(firstPoint, secondPoint) {
         this.firstPoint = firstPoint;
         this.secondPoint = secondPoint;
+        this.oldSecondPoint = JSON.parse(JSON.stringify(secondPoint));
     }
 
     getCenter() {

@@ -22,7 +22,7 @@ export function importLine(object) {
         secondPointColor
     );
 
-    var line = new Line();
+    var line = new Line(firstPoint);
     line.updatePointFromImport(firstPoint, secondPoint);
 
     return line;
@@ -69,7 +69,7 @@ export function importSquare(object) {
         fourthPointColor
     );
 
-    var square = new Square();
+    var square = new Square(center);
     square.updateFromImport(
         center,
         firstPoint,
@@ -118,7 +118,7 @@ export function importRectangle(object) {
         fourthPointColor
     );
 
-    var rectangle = new Rectangle();
+    var rectangle = new Rectangle(firstPoint);
     rectangle.updatePointFromImport(
         firstPoint, 
         secondPoint, 
