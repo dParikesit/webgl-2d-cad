@@ -295,6 +295,7 @@ canvas.addEventListener("mousedown", function (e) {
         if(e.which == 3){
             let polygon = objects[objects.length - 1];
             polygon.updatePoint(point);
+            polygon.updateFixedPoint(point);
             polygon.draw(gl, program, vBuffer, cBuffer);
             polygon.doneDraw();
 
