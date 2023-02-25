@@ -229,6 +229,7 @@ document
 
 // Canvas Listener
 canvas.addEventListener("mousedown", function (e) {
+    e.preventDefault();
     let rect = gl.canvas.getBoundingClientRect();
     let x = ((e.clientX - rect.left) / gl.canvas.width) * 2 - 1;
     let y = ((e.clientY - rect.top) / gl.canvas.height) * -2 + 1;
@@ -290,21 +291,28 @@ canvas.addEventListener("mousedown", function (e) {
     }
 
     // POLYGON
-    if (drawType == "POLYGON") {
-        if(drawing){
+    if (drawType == "POLYGON") {        
+        if(e.which == 3){
             let polygon = objects[objects.length - 1];
-            // polygon.updatePoint(point);
-            polygon.updateFixedPoint(point);
+            polygon.updatePoint(point);
             polygon.draw(gl, program, vBuffer, cBuffer);
-            // polygon.doneDraw();
+            polygon.doneDraw();
 
-            // drawing = false
+            drawing = false
         }else{
-            let polygon = new Polygon(point);
-            objects.push(polygon);
+            if(drawing){
+                let polygon = objects[objects.length - 1];
+                polygon.updateFixedPoint(point);
+                polygon.draw(gl, program, vBuffer, cBuffer);
 
-            drawing = true; // then drawing mode when mouse move
+            }else{
+                let polygon = new Polygon(point);
+                objects.push(polygon);
+                polygon.updatePoint(point);
+                drawing = true; // then drawing mode when mouse move
+            }
         }
+
     }
 });
 
@@ -363,6 +371,31 @@ window.onclick = function(event) {
     document.getElementById("myModal").style.display = "none";
   }
 }
+
+canvas.addEventListener("contextmenu", function(event) {
+
+    // Prevent the default context menu from showing up
+    event.preventDefault();
+  
+  });
+
+// ------------------------ HELP ------------------------
+// document.getElementById("stopDraw").addEventListener("mousedown", function (e) {
+//     stopDrawPolygon();
+//     // document.getElementById("stopDraw").style.display = "none";
+// });
+
+// function stopDrawPolygon(){
+//     let polygon = objects[objects.length - 1];
+//     console.log(polygon.points)
+//     polygon.updatePoint(null);
+//     // polygon.updateFixedPoint(point);
+//     polygon.draw(gl, program, vBuffer, cBuffer);
+//     polygon.doneDraw();
+
+//     drawing = false
+// }
+
 
 // Listener
 // const polyAddPoint = document.getElementById("polyAddPoint");

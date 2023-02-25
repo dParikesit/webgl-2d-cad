@@ -18,45 +18,71 @@ export class Polygon extends Shape {
     clone() {}
 
     draw(gl, program, vBuffer, cBuffer) {
+        // console.log("apa kesini lagi")
         if (this.secondPoint == null) {
-            return;
+            return
         }
-
         
         if(this.points.length == 0){
-            this.renderPolygon(
+            this.render(
                 gl,
                 program,
                 vBuffer,
                 cBuffer,
                 [...this.points, this.secondPoint],
                 gl.POINTS,
-                1
-                
             );
         }else if(this.points.length == 1){
-            this.renderPolygon(
+            this.render(
                 gl,
                 program,
                 vBuffer,
                 cBuffer,
                 [...this.points, this.secondPoint],
                 gl.LINES,
-                2
             );
         }else{
-            let lengthPoints = this.points.length + 1
-            this.renderPolygon(
+            this.render(
                 gl,
                 program,
                 vBuffer,
                 cBuffer,
                 [...this.points, this.secondPoint],
-                gl.TRIANGLE_FAN,
-                lengthPoints
+                gl.TRIANGLE_FAN
             );
         }
+    }
 
+    drawLast(gl, program, vBuffer, cBuffer) {
+        console.log("di draw last", this.points)
+        if(this.points.length == 1){
+            this.render(
+                gl,
+                program,
+                vBuffer,
+                cBuffer,
+                this.points,
+                gl.POINTS,
+            );
+        }else if(this.points.length == 2){
+            this.render(
+                gl,
+                program,
+                vBuffer,
+                cBuffer,
+                this.points,
+                gl.LINES,
+            );
+        }else{
+            this.render(
+                gl,
+                program,
+                vBuffer,
+                cBuffer,
+                this.points,
+                gl.TRIANGLE_FAN,
+            );
+        }
     }
 
     doneDraw() {
@@ -84,51 +110,6 @@ export class Polygon extends Shape {
         this.thirdPoint = thirdPoint;
         this.fourthPoint = fourthPoint;
         this.done = true;
-    }
-
-    renderPolygon(gl, program, vBuffer, cBuffer, points, glTypes, count) {
-        const pointsDraw = points.flatMap((item) => item.pos);
-        const colorsDraw = points.flatMap((item) => item.color);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-        gl.bufferData(
-            gl.ARRAY_BUFFER,
-            new Float32Array(pointsDraw),
-            gl.STATIC_DRAW
-        );
-        var positionAttributeLocation = gl.getAttribLocation(
-            program,
-            "vPosition"
-        );
-
-        // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-        var size = 2; // 2 components per iteration
-        var type = gl.FLOAT; // the data is 32bit floats
-        var normalize = false; // don't normalize the data
-        var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-        var offset = 0; // start at the beginning of the buffer
-        gl.vertexAttribPointer(
-            positionAttributeLocation,
-            size,
-            type,
-            normalize,
-            stride,
-            offset
-        );
-
-        gl.enableVertexAttribArray(positionAttributeLocation);
-        gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-        gl.bufferData(
-            gl.ARRAY_BUFFER,
-            new Float32Array(colorsDraw),
-            gl.STATIC_DRAW
-        );
-
-        const vColor = gl.getAttribLocation(program, "vColor");
-        gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, stride, offset);
-        gl.enableVertexAttribArray(vColor);
-
-        gl.drawArrays(glTypes, offset, count);
     }
 }
 
