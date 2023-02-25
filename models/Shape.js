@@ -3,6 +3,7 @@ export class Shape {
         this.id = id;
         this.points = [];
         this.type = `${type}`;
+        this.degree = 0
     }
 
     clone() {}
@@ -48,7 +49,9 @@ export class Shape {
         }
     }
 
-    rotate(degree) {
+    rotate(newDegree) {
+        const degree = newDegree - this.degree;
+        this.degree += degree;
         const radian = degree * (Math.PI / 180);
         const [originX, originY] = this.getCenter();
         for (let i = 0; i < this.points.length; i++) {

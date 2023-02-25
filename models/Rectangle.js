@@ -107,17 +107,33 @@ export class Rectangle extends Shape {
     changeHeight(deltaX) {
         // 1 -- 3
         // 4 -- 2
-        this.firstPoint.pos[0] = parseFloat(this.oldFirstPoint.pos[0] - parseFloat(deltaX));
-        this.secondPoint.pos[0] = parseFloat(this.oldSecondPoint.pos[0] + parseFloat(deltaX));
-        this.thirdPoint.pos[0] = parseFloat(this.oldThirdPoint.pos[0] - parseFloat(deltaX));
-        this.fourthPoint.pos[0] = parseFloat(this.oldFourthPoint.pos[0] + parseFloat(deltaX));
-    } 
+        this.firstPoint.pos[0] = parseFloat(
+            this.oldFirstPoint.pos[0] - parseFloat(deltaX)
+        );
+        this.secondPoint.pos[0] = parseFloat(
+            this.oldSecondPoint.pos[0] + parseFloat(deltaX)
+        );
+        this.thirdPoint.pos[0] = parseFloat(
+            this.oldThirdPoint.pos[0] - parseFloat(deltaX)
+        );
+        this.fourthPoint.pos[0] = parseFloat(
+            this.oldFourthPoint.pos[0] + parseFloat(deltaX)
+        );
+    }
 
     changeWidth(deltaY) {
-        this.firstPoint.pos[1] = parseFloat(this.oldFirstPoint.pos[1] + parseFloat(deltaY));
-        this.secondPoint.pos[1] = parseFloat(this.oldSecondPoint.pos[1] - parseFloat(deltaY));
-        this.thirdPoint.pos[1] = parseFloat(this.oldThirdPoint.pos[1] - parseFloat(deltaY));
-        this.fourthPoint.pos[1] = parseFloat(this.oldFourthPoint.pos[1] + parseFloat(deltaY));
+        this.firstPoint.pos[1] = parseFloat(
+            this.oldFirstPoint.pos[1] + parseFloat(deltaY)
+        );
+        this.secondPoint.pos[1] = parseFloat(
+            this.oldSecondPoint.pos[1] - parseFloat(deltaY)
+        );
+        this.thirdPoint.pos[1] = parseFloat(
+            this.oldThirdPoint.pos[1] - parseFloat(deltaY)
+        );
+        this.fourthPoint.pos[1] = parseFloat(
+            this.oldFourthPoint.pos[1] + parseFloat(deltaY)
+        );
     }
 
     thirdDivSetup() {
@@ -164,5 +180,56 @@ export class Rectangle extends Shape {
         );
 
         return thirdDiv;
+    }
+
+    rotate(newDegree) {
+        const degree = newDegree - this.degree;
+        this.degree += degree;
+        const radian = degree * (Math.PI / 180);
+        const [originX, originY] = this.getCenter();
+
+        let oldX = this.firstPoint.pos[0];
+        let oldY = this.firstPoint.pos[1];
+        this.firstPoint.pos[0] =
+            originX +
+            (oldX - originX) * Math.cos(radian) -
+            (oldY - originY) * Math.sin(radian);
+        this.firstPoint.pos[1] =
+            originY +
+            (oldX - originX) * Math.sin(radian) +
+            (oldY - originY) * Math.cos(radian);
+
+        oldX = this.secondPoint.pos[0];
+        oldY = this.secondPoint.pos[1];
+        this.secondPoint.pos[0] =
+            originX +
+            (oldX - originX) * Math.cos(radian) -
+            (oldY - originY) * Math.sin(radian);
+        this.secondPoint.pos[1] =
+            originY +
+            (oldX - originX) * Math.sin(radian) +
+            (oldY - originY) * Math.cos(radian);
+
+        oldX = this.thirdPoint.pos[0];
+        oldY = this.thirdPoint.pos[1];
+        this.thirdPoint.pos[0] =
+            originX +
+            (oldX - originX) * Math.cos(radian) -
+            (oldY - originY) * Math.sin(radian);
+        this.thirdPoint.pos[1] =
+            originY +
+            (oldX - originX) * Math.sin(radian) +
+            (oldY - originY) * Math.cos(radian);
+
+        oldX = this.fourthPoint.pos[0];
+        oldY = this.fourthPoint.pos[1];
+        this.fourthPoint.pos[0] =
+            originX +
+            (oldX - originX) * Math.cos(radian) -
+            (oldY - originY) * Math.sin(radian);
+        this.fourthPoint.pos[1] =
+            originY +
+            (oldX - originX) * Math.sin(radian) +
+            (oldY - originY) * Math.cos(radian);
     }
 }

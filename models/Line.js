@@ -82,7 +82,9 @@ export class Line extends Shape {
         this.secondPoint.pos[1] += delta;
     }
 
-    rotate(degree) {
+    rotate(newDegree) {
+        const degree = newDegree - this.degree
+        this.degree += degree
         const radian = degree * (Math.PI / 180);
         const [originX, originY] = this.getCenter();
 
