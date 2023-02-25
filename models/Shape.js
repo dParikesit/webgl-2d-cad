@@ -34,20 +34,23 @@ export class Shape {
     moveCenterX(newX) {
         const [originX, _originY] = this.getCenter();
         let pointDelta = [];
+
+        console.log(this.points)
         for (let i = 0; i < this.points.length; i++) {
-            pointDelta.append(this.points[i].pos[0] - originX);
+            pointDelta.push(this.points[i].pos[0] - originX);
         }
 
         for (let i = 0; i < this.points.length; i++) {
             this.points[i].pos[0] = parseFloat(newX) + pointDelta[i];
         }
+        console.log(this.points);
     }
 
     moveCenterY(newY) {
         const [_originX, originY] = this.getCenter();
         let pointDelta = [];
         for (let i = 0; i < this.points.length; i++) {
-            pointDelta.append(this.points[i].pos[1] - originY);
+            pointDelta.push(this.points[i].pos[1] - originY);
         }
 
         for (let i = 0; i < this.points.length; i++) {
