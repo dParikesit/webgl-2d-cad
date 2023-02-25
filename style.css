@@ -89,3 +89,8 @@ button {
     text-decoration: none;
     cursor: pointer;
 }
+
+#object-list {
+    height: 60vh;
+    overflow-y: auto;
+}

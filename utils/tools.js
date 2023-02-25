@@ -17,14 +17,14 @@ export function resizeCanvasToDisplaySize(canvas) {
 }
 
 export function genColor(){
-    let itemList = ["red", "green", "blue"];
-    let item = itemList[Math.floor(Math.random() * itemList.length)];
-    if (item == "red") {
-        return([1.0, 0.0, 0.0, 1.0]);
-    } else if (item == "green") {
-        return([0.0, 1.0, 0.0, 1.0]);
-    } else if (item == "blue") {
-        return([0.0, 0.0, 1.0, 1.0]);
-    }
+    // let itemList = ["red", "green", "blue"];
+    // let item = itemList[Math.floor(Math.random() * itemList.length)];
+    // if (item == "red") {
+    //     return([1.0, 0.0, 0.0, 1.0]);
+    // } else if (item == "green") {
+    //     return([0.0, 1.0, 0.0, 1.0]);
+    // } else if (item == "blue") {
+    //     return([0.0, 0.0, 1.0, 1.0]);
+    // }
     return [0,0,0,1]
 }

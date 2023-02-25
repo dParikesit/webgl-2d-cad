@@ -1,3 +1,4 @@
+import { QuickHull } from "../utils/quickhull.js";
 import { Point } from "./Point.js";
 import { Shape } from "./Shape.js";
 
@@ -47,7 +48,7 @@ export class Polygon extends Shape {
                 program,
                 vBuffer,
                 cBuffer,
-                [...this.points, this.secondPoint],
+                QuickHull([...this.points, this.secondPoint]),
                 gl.TRIANGLE_FAN
             );
         }
