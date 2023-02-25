@@ -103,7 +103,7 @@ export class Square extends Shape {
     }
 
     getCenter() {
-        if (this.secondPoint === null) {
+        if (this.fourthPoint === null) {
             return;
         }
 
@@ -117,27 +117,33 @@ export class Square extends Shape {
             this.secondPoint.pos[1] +
             this.thirdPoint.pos[1] +
             this.fourthPoint.pos[1];
-        return [x / 2, y / 2];
+        return [x / 4, y / 4];
     }
 
     moveCenterX(newX) {
         const [originX, _originY] = this.getCenter();
-        let delta = newX - originX;
+        let firstPointDelta = this.firstPoint.pos[0] - originX;
+        let secondPointDelta = this.secondPoint.pos[0] - originX;
+        let thirdPointDelta = this.thirdPoint.pos[0] - originX;
+        let fourthPointDelta = this.fourthPoint.pos[0] - originX;
 
-        this.firstPoint.pos[0] += delta;
-        this.secondPoint.pos[0] += delta;
-        this.thirdPoint.pos[0] += delta;
-        this.fourthPoint.pos[0] += delta;
+        this.firstPoint.pos[0] = parseFloat(newX) + firstPointDelta;
+        this.secondPoint.pos[0] = parseFloat(newX) + secondPointDelta;
+        this.thirdPoint.pos[0] = parseFloat(newX) + thirdPointDelta;
+        this.fourthPoint.pos[0] = parseFloat(newX) + fourthPointDelta;
     }
 
     moveCenterY(newY) {
         const [_originX, originY] = this.getCenter();
-        let delta = newY - originY;
+        let firstPointDelta = this.firstPoint.pos[1] - originY;
+        let secondPointDelta = this.secondPoint.pos[1] - originY;
+        let thirdPointDelta = this.thirdPoint.pos[1] - originY;
+        let fourthPointDelta = this.fourthPoint.pos[1] - originY;
 
-        this.firstPoint.pos[1] += delta;
-        this.secondPoint.pos[1] += delta;
-        this.thirdPoint.pos[1] += delta;
-        this.fourthPoint.pos[1] += delta;
+        this.firstPoint.pos[1] = parseFloat(newY) + firstPointDelta;
+        this.secondPoint.pos[1] = parseFloat(newY) + secondPointDelta;
+        this.thirdPoint.pos[1] = parseFloat(newY) + thirdPointDelta;
+        this.fourthPoint.pos[1] = parseFloat(newY) + fourthPointDelta;
     }
 
     rotate(newDegree) {

@@ -68,18 +68,21 @@ export class Line extends Shape {
 
     moveCenterX(newX) {
         const [originX, _originY] = this.getCenter();
-        let delta = newX - originX;
 
-        this.firstPoint.pos[0] += delta;
-        this.secondPoint.pos[0] += delta;
+        const firstPointDelta = this.firstPoint.pos[0] - originX;
+        const secondPointDelta = this.secondPoint.pos[0] - originX;
+
+        this.firstPoint.pos[0] = parseFloat(newX) + firstPointDelta;
+        this.secondPoint.pos[0] = parseFloat(newX) + secondPointDelta;
     }
 
     moveCenterY(newY) {
         const [_originX, originY] = this.getCenter();
-        let delta = newY - originY;
+        const firstPointDelta = this.firstPoint.pos[1] - originY;
+        const secondPointDelta = this.secondPoint.pos[1] - originY;
 
-        this.firstPoint.pos[1] += delta;
-        this.secondPoint.pos[1] += delta;
+        this.firstPoint.pos[1] = parseFloat(newY) + firstPointDelta;
+        this.secondPoint.pos[1] = parseFloat(newY) + secondPointDelta;
     }
 
     rotate(newDegree) {

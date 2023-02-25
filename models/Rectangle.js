@@ -182,6 +182,50 @@ export class Rectangle extends Shape {
         return thirdDiv;
     }
 
+    getCenter() {
+        if (this.fourthPoint === null) {
+            return;
+        }
+
+        let x =
+            this.firstPoint.pos[0] +
+            this.secondPoint.pos[0] +
+            this.thirdPoint.pos[0] +
+            this.fourthPoint.pos[0];
+        let y =
+            this.firstPoint.pos[1] +
+            this.secondPoint.pos[1] +
+            this.thirdPoint.pos[1] +
+            this.fourthPoint.pos[1];
+        return [x / 4, y / 4];
+    }
+
+    moveCenterX(newX) {
+        const [originX, _originY] = this.getCenter();
+        let firstPointDelta = this.firstPoint.pos[0] - originX;
+        let secondPointDelta = this.secondPoint.pos[0] - originX;
+        let thirdPointDelta = this.thirdPoint.pos[0] - originX;
+        let fourthPointDelta = this.fourthPoint.pos[0] - originX;
+
+        this.firstPoint.pos[0] = parseFloat(newX) + firstPointDelta;
+        this.secondPoint.pos[0] = parseFloat(newX) + secondPointDelta;
+        this.thirdPoint.pos[0] = parseFloat(newX) + thirdPointDelta;
+        this.fourthPoint.pos[0] = parseFloat(newX) + fourthPointDelta;
+    }
+
+    moveCenterY(newY) {
+        const [_originX, originY] = this.getCenter();
+        let firstPointDelta = this.firstPoint.pos[1] - originY;
+        let secondPointDelta = this.secondPoint.pos[1] - originY;
+        let thirdPointDelta = this.thirdPoint.pos[1] - originY;
+        let fourthPointDelta = this.fourthPoint.pos[1] - originY;
+
+        this.firstPoint.pos[1] = parseFloat(newY) + firstPointDelta;
+        this.secondPoint.pos[1] = parseFloat(newY) + secondPointDelta;
+        this.thirdPoint.pos[1] = parseFloat(newY) + thirdPointDelta;
+        this.fourthPoint.pos[1] = parseFloat(newY) + fourthPointDelta;
+    }
+
     rotate(newDegree) {
         const degree = newDegree - this.degree;
         this.degree += degree;

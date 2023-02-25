@@ -3,7 +3,7 @@ export class Shape {
         this.id = id;
         this.points = [];
         this.type = `${type}`;
-        this.degree = 0
+        this.degree = 0;
     }
 
     clone() {}
@@ -33,19 +33,25 @@ export class Shape {
 
     moveCenterX(newX) {
         const [originX, _originY] = this.getCenter();
-        let delta = newX - originX;
+        let pointDelta = [];
+        for (let i = 0; i < this.points.length; i++) {
+            pointDelta.append(this.points[i].pos[0] - originX);
+        }
 
         for (let i = 0; i < this.points.length; i++) {
-            this.points[i].pos[0] += delta;
+            this.points[i].pos[0] = parseFloat(newX) + pointDelta[i];
         }
     }
 
     moveCenterY(newY) {
         const [_originX, originY] = this.getCenter();
-        let delta = newY - originY;
+        let pointDelta = [];
+        for (let i = 0; i < this.points.length; i++) {
+            pointDelta.append(this.points[i].pos[1] - originY);
+        }
 
         for (let i = 0; i < this.points.length; i++) {
-            this.points[i].pos[1] += delta;
+            this.points[i].pos[1] = parseFloat(newY) + pointDelta[i];
         }
     }
 
@@ -170,7 +176,7 @@ export class Shape {
         sliderWidth.max = 1;
         sliderWidth.value = 0;
         sliderWidth.step = "1";
-        
+
         toolsSect.append(firstDiv, secondDiv, this.thirdDivSetup());
     }
 
@@ -225,6 +231,6 @@ export class Shape {
         gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, stride, offset);
         gl.enableVertexAttribArray(vColor);
 
-        gl.drawArrays(glTypes, offset, pointsDraw.length/2);
+        gl.drawArrays(glTypes, offset, pointsDraw.length / 2);
     }
 }
