@@ -22,6 +22,9 @@ export class Point {
     thirdDivStyleSetup() {}
 
     objListener() {
+        let toolsSect = document.getElementById("transformation");
+        toolsSect.replaceChildren();
+        
         let styleSect = document.getElementById("style");
         styleSect.replaceChildren();
 

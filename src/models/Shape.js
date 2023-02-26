@@ -85,6 +85,9 @@ export class Shape {
         // let rect = gl.canvas.getBoundingClientRect();
         // const [centerX, centerY] = this.getCenter();
 
+        let styleSect = document.getElementById("style");
+        styleSect.replaceChildren();
+        
         let toolsSect = document.getElementById("transformation");
         toolsSect.replaceChildren();
 
