@@ -148,7 +148,7 @@ export class Rectangle extends Shape {
         heightTitle.innerHTML = "Panjang";
         const sliderHeight = document.createElement("input");
         sliderHeight.type = "range";
-        sliderHeight.min = -1;
+        sliderHeight.min = 0;
         sliderHeight.max = 1;
         sliderHeight.value = this.deltaxValue;
         sliderHeight.step = "0.01";
@@ -162,7 +162,7 @@ export class Rectangle extends Shape {
         widthTitle.innerHTML = "Lebar";
         const sliderWidth = document.createElement("input");
         sliderWidth.type = "range";
-        sliderWidth.min = -1;
+        sliderWidth.min = 0;
         sliderWidth.max = 1;
         sliderWidth.value = this.deltayValue;
         sliderWidth.step = "0.01";

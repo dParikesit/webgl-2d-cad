@@ -139,7 +139,7 @@ export class Line extends Shape {
         heightTitle.innerHTML = "Panjang";
         const sliderHeight = document.createElement("input");
         sliderHeight.type = "range";
-        sliderHeight.min =-1;
+        sliderHeight.min =0;
         sliderHeight.max = 1;
         sliderHeight.value = this.deltaValue;
         sliderHeight.step = "0.01";
