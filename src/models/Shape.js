@@ -87,7 +87,7 @@ export class Shape {
 
         let styleSect = document.getElementById("style");
         styleSect.replaceChildren();
-        
+
         let toolsSect = document.getElementById("transformation");
         toolsSect.replaceChildren();
 
@@ -107,7 +107,7 @@ export class Shape {
         sliderX.max = 1;
         sliderX.value = 0;
         sliderX.step = "0.01";
-        sliderX.addEventListener("change", (e) => {
+        sliderX.addEventListener("input", (e) => {
             console.log(e.target.value);
             this.moveCenterX(e.target.value);
         });
@@ -122,7 +122,7 @@ export class Shape {
         sliderY.max = 1;
         sliderY.value = 0;
         sliderY.step = "0.01";
-        sliderY.addEventListener("change", (e) => {
+        sliderY.addEventListener("input", (e) => {
             console.log(e.target.value);
             this.moveCenterY(e.target.value);
         });
@@ -151,7 +151,7 @@ export class Shape {
         sliderDeg.max = 360;
         sliderDeg.value = 0;
         sliderDeg.step = "1";
-        sliderDeg.addEventListener("change", (e) => {
+        sliderDeg.addEventListener("input", (e) => {
             console.log(e.target.value);
             this.rotate(e.target.value);
         });
