@@ -48,7 +48,7 @@ let cBuffer = gl.createBuffer();
 
 //  ------------------------ GLOBAL VARIABLE  ------------------------
 // Global variables
-let objects = [];
+export let objects = [];
 let drawing = false;
 let drawType = "";
 
@@ -132,16 +132,16 @@ document.getElementById("object-list").addEventListener("mousedown", function (e
         } else if(obj.type==="Square" || obj.type==="Rectangle") {
             if (id[1] === 1) {
                 console.log("First point clicked");
-                obj.firstPoint.objListener();
+                obj.firstPoint.objListener(id[0]);
             } else if (id[1] === 2) {
                 console.log("Second point clicked");
-                obj.secondPoint.objListener();
+                obj.secondPoint.objListener(id[0]);
             } else if (id[1] === 3) {
                 console.log("Third point clicked");
-                obj.thirdPoint.objListener();
+                obj.thirdPoint.objListener(id[0]);
             } else if (id[1] === 4) {
                 console.log("Fourth point clicked");
-                obj.fourthPoint.objListener();
+                obj.fourthPoint.objListener(id[0]);
             }
         }else{
             obj.points[id[1]].objListener();

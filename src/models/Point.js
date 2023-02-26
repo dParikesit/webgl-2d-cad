@@ -1,5 +1,6 @@
 import { genColor } from "../utils/tools.js";
 import { euclidianDist } from "../utils/math.js";
+import { objects } from "../script.js";
 
 export class Point {
     constructor(pos, id = -1, color = genColor()) {
@@ -21,7 +22,7 @@ export class Point {
     
     thirdDivStyleSetup() {}
 
-    objListener() {
+    objListener(idParent=-1) {
         let toolsSect = document.getElementById("transformation");
         toolsSect.replaceChildren();
         
@@ -87,7 +88,7 @@ export class Point {
         sliderXPoint.step = "0.01";
         sliderXPoint.addEventListener("input", (e) => {
             console.log(e.target.value);
-            this.movePointX(e.target.value);
+            this.movePointX(e.target.value, idParent);
         });
 
         const sliderYTitlePoint = document.createElement("h3");
@@ -100,7 +101,7 @@ export class Point {
         sliderYPoint.step = "0.01";
         sliderYPoint.addEventListener("input", (e) => {
             console.log(e.target.value);
-            this.movePointY(e.target.value);
+            this.movePointY(e.target.value, idParent);
         });
 
         secondDivPoint.append(pointSlider)
@@ -113,14 +114,26 @@ export class Point {
         styleSect.append(firstDivPoint, secondDivPoint)
     }
 
-    movePointX(newX){
+    movePointX(newX, idParent){
         console.log("masuk fungsi x", newX)
-        this.pos[0] = parseFloat(newX)
+        if (idParent==-1) {
+            this.pos[0] = parseFloat(newX);    
+        } else{
+            let parent = objects[idParent];
+            parent.moveCenterX(newX);
+        }
+        
+        
     }
 
-    movePointY(newY){
+    movePointY(newY, idParent){
         console.log("masuk fungsi y", newY)
-        this.pos[1] = parseFloat(newY)
+        if (idParent == -1) {
+            this.pos[1] = parseFloat(newY);
+        } else {
+            let parent = objects[idParent];
+            parent.moveCenterY(newY);
+        }
     }
 
     getPoint() {
