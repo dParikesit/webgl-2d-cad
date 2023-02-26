@@ -155,33 +155,10 @@ export class Shape {
 
         secondDiv.append(rotation, degTitle, sliderDeg);
 
-        // third div
-        const thirdDiv = document.createElement("div");
-        thirdDiv.className = "container-transformation-list-3";
-        const sizeTitle = document.createElement("h1");
-        sizeTitle.innerHTML = "Ukuran";
-
-        // first inner third div
-        const heightTitle = document.createElement("h2");
-        heightTitle.innerHTML = "Panjang";
-        const sliderHeight = document.createElement("input");
-        sliderHeight.type = "range";
-        sliderHeight.min = 0;
-        sliderHeight.max = 1;
-        sliderHeight.value = 0;
-        sliderHeight.step = "1";
-
-        const widthTitle = document.createElement("h2");
-        widthTitle.innerHTML = "Lebar";
-        const sliderWidth = document.createElement("input");
-        sliderWidth.type = "range";
-        sliderWidth.min = 0;
-        sliderWidth.max = 1;
-        sliderWidth.value = 0;
-        sliderWidth.step = "1";
-
         toolsSect.append(firstDiv, secondDiv, this.thirdDivSetup());
+    
     }
+
 
     setupSlider() {}
 

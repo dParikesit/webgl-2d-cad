@@ -18,6 +18,8 @@ export class Point {
             `Point with id ${this.id}, name ${this.name}, pos ${this.color}, color ${this.color}`
         );
     }
+    
+    thirdDivStyleSetup() {}
 
     objListener() {
         let styleSect = document.getElementById("style");
@@ -72,36 +74,38 @@ export class Point {
         pointSlider.innerHTML = "Point Slider";
 
 
-        const sliderXTitle = document.createElement("h3");
-        sliderXTitle.innerHTML = "Slider X";
-        const sliderX = document.createElement("input");
-        sliderX.type = "range";
-        sliderX.min = -1;
-        sliderX.max = 1;
-        sliderX.value = 0;
-        sliderX.step = "0.01";
-        sliderX.addEventListener("input", (e) => {
+        const sliderXTitlePoint = document.createElement("h3");
+        sliderXTitlePoint.innerHTML = "Slider X";
+        const sliderXPoint = document.createElement("input");
+        sliderXPoint.type = "range";
+        sliderXPoint.min = -1;
+        sliderXPoint.max = 1;
+        sliderXPoint.value = 0;
+        sliderXPoint.step = "0.01";
+        sliderXPoint.addEventListener("input", (e) => {
             console.log(e.target.value);
             this.movePointX(e.target.value);
         });
 
-        const sliderYTitle = document.createElement("h3");
-        sliderYTitle.innerHTML = "Slider Y";
-        const sliderY = document.createElement("input");
-        sliderY.type = "range";
-        sliderY.min = -1;
-        sliderY.max = 1;
-        sliderY.value = 0;
-        sliderY.step = "0.01";
-        sliderY.addEventListener("input", (e) => {
+        const sliderYTitlePoint = document.createElement("h3");
+        sliderYTitlePoint.innerHTML = "Slider Y";
+        const sliderYPoint = document.createElement("input");
+        sliderYPoint.type = "range";
+        sliderYPoint.min = -1;
+        sliderYPoint.max = 1;
+        sliderYPoint.value = 0;
+        sliderYPoint.step = "0.01";
+        sliderYPoint.addEventListener("input", (e) => {
             console.log(e.target.value);
             this.movePointY(e.target.value);
         });
 
-        secondDivPoint.append(sliderXTitle)
-        secondDivPoint.append(sliderX)
-        secondDivPoint.append(sliderYTitle)
-        secondDivPoint.append(sliderY)
+        secondDivPoint.append(pointSlider)
+        secondDivPoint.append(sliderXTitlePoint)
+        secondDivPoint.append(sliderXPoint)
+        secondDivPoint.append(sliderYTitlePoint)
+        secondDivPoint.append(sliderYPoint)
+
 
         styleSect.append(firstDivPoint, secondDivPoint)
     }

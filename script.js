@@ -142,6 +142,9 @@ document.getElementById("object-list").addEventListener("mousedown", function (e
                 console.log("Fourth point clicked");
                 obj.fourthPoint.objListener();
             }
+        }else{
+            obj.points[id[1]].objListener();
+            obj.objListenerPol(gl, id[1]);
         }
     }
 })

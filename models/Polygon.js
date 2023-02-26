@@ -19,7 +19,6 @@ export class Polygon extends Shape {
     clone() {}
 
     draw(gl, program, vBuffer, cBuffer) {
-        // console.log("apa kesini lagi")
         if (this.secondPoint == null) {
             return
         }
@@ -112,68 +111,67 @@ export class Polygon extends Shape {
         this.fourthPoint = fourthPoint;
         this.done = true;
     }
+
+    thirdDivSetup() {
+        // third div
+        const thirdDiv = document.createElement("div");
+        thirdDiv.className = "container-transformation-list-3";
+
+        return thirdDiv;
+    }
+
+    objListenerPol(gl, id){
+        console.log("sampe sini")
+
+        let styleSect = document.getElementById("Polygon_Function");
+        styleSect.replaceChildren();
+
+        const thirdDivPoint = document.createElement("div");
+        thirdDivPoint.className = "container-transformation-list-1";
+        const addDelete = document.createElement("h2");
+        addDelete.innerHTML = "Add-Delete Polygon Point";
+
+        const addButton = document.createElement("Button")
+        addButton.textContent = "Add Point";
+        const delButton = document.createElement("Button")
+        delButton.textContent = "Delete Point";
+        addButton.addEventListener("mousedown", (e) => {
+            console.log(e.target.value);
+            // this.movePointY(e.target.value);
+            console.log("tambahh")
+            this.addPolygonPoint();
+        });
+
+        delButton.addEventListener("mousedown", (e) => {
+            this.deletePolPoint(id);
+        });
+
+
+        thirdDivPoint.append(addDelete)
+        thirdDivPoint.append(addButton)
+        thirdDivPoint.append(delButton)
+
+        styleSect.append(thirdDivPoint)
+    }
+
+    deletePolPoint(id){
+        if(this.points.length >4 ){
+            this.points.splice(id, 1);
+        }
+    }
+
+    addPolygonPoint(){
+        let x = Math.random() * (1 - (-1)) + (-1);
+        let y = Math.random() * (1 - (-1)) + (-1);
+
+        this.points.push(new Point([x, y]));
+    }
 }
 
 
-// constructor(id = -1, type = "Polygon") {
-//     super(id, type);
 
-//     this.drawObjectInfo();
-// }
 
-// clone() {
-//     let newPolygon = new Polygon(this.id, this.type);
-//     this.points.forEach((point) => {
-//         newPolygon.points.push(point.clone());
-//     });
-// }
 
-// draw(event) {
-//     let rect = gl.canvas.getBoundingClientRect();
-//     let x = ((event.clientX - rect.left) / gl.canvas.width) * 2 - 1;
-//     let y = ((event.clientY - rect.top) / gl.canvas.height) * -2 + 1;
-
-//     if (this.points.length < 2) {
-//         this.points.push(new Point([x, y]));
-//         this.render(gl.POINTS, this.points);
-//     } else if(this.points.length == 2){
-//         this.points.push(new Point([x, y]));
-//         this.render(gl.TRIANGLES, this.points);
-//     }else {
-//         this.points.push(this.points[0].clone());
-//         this.points.push(this.points[this.points.length - 2].clone());
-//         this.points.push(new Point([x, y]));
-//         this.render(gl.TRIANGLES, this.points);
-//     }
-// }
-
-// glType(gl) {
-//     return gl.TRIANGLES
-// }
-
-// drawObjectInfo = () => {
-//     let inner = "<h1>Polygon Initiated</h1> <button id='test'> hai </button>";
-
-//     document.getElementById("object-created").innerHTML = inner;
-// };
-
-// addPolygonPoint(x, y){
-//     x = Math.random() * (1 - (-1)) + (-1);
-//     y = Math.random() * (1 - (-1)) + (-1);
-
-//     if (this.points.length < 2) {
-//         this.points.push(new Point([x, y]));
-//         this.render(gl.POINTS);
-//     } else if(this.points.length == 2){
-//         this.points.push(new Point([x, y]));
-//         this.render(gl.TRIANGLES);
-//     }else {
-//         this.points.push(this.points[0].clone());
-//         this.points.push(this.points[this.points.length - 2].clone());
-//         this.points.push(new Point([x, y]));
-//         this.render(gl.TRIANGLES);
-//     }
-// }
 
 // delPolygonPoint(x, y){
 
