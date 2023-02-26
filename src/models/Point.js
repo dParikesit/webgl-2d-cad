@@ -115,12 +115,12 @@ export class Point {
 
     movePointX(newX){
         console.log("masuk fungsi x", newX)
-        this.pos[0] = newX
+        this.pos[0] = parseFloat(newX)
     }
 
     movePointY(newY){
         console.log("masuk fungsi y", newY)
-        this.pos[1] = newY
+        this.pos[1] = parseFloat(newY)
     }
 
     getPoint() {
