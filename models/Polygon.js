@@ -104,11 +104,10 @@ export class Polygon extends Shape {
         document.getElementById("object-created").innerHTML = inner;
     };
 
-    updatePointFromImport(firstPoint, secondPoint, thirdPoint, fourthPoint) {
+    updatePointFromImport(firstPoint, secondPoint, points) {
         this.firstPoint = firstPoint;
         this.secondPoint = secondPoint;
-        this.thirdPoint = thirdPoint;
-        this.fourthPoint = fourthPoint;
+        this.points = points
         this.done = true;
     }
 

@@ -13,6 +13,7 @@ import { resizeCanvasToDisplaySize } from "./utils/tools.js";
 
 import {
     importLine,
+    importPolygon,
     importRectangle,
     importSquare,
 } from "./utils/import-object.js";
@@ -198,6 +199,10 @@ document.getElementById("import").addEventListener("change", function (event) {
 
             if (type == "Rectangle") {
                 objects.push(importRectangle(object));
+            }
+
+            if (type == "Polygon") {
+                objects.push(importPolygon(object))
             }
         }
     };
