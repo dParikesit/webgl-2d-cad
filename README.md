@@ -3,7 +3,7 @@
 
 
 ## Cara Menjalankan Program
-1. Jalankan file index.html dengan menggunakan live serve vs code
+1. Jalankan file index.html dengan menggunakan extension live server pada vscode
 
 ## Anggota Kelompok
 | Nama | NIM |
